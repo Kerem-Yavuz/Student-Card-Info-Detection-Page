@@ -9,9 +9,9 @@ header {
     background-color: #254610;
     color: white;
     padding: 20px 0;
-    text-align: center;
     font-size: 20px;
     width:auto;
+    
 }
 
 header nav a {
@@ -124,7 +124,7 @@ input[type='radio']:checked:after {
 
 .headerbutton
 {
-    margin-left: 50%;
+    margin-left: 70%;
     
     background-color: #eef8e8;
     padding: 10px;
@@ -142,3 +142,17 @@ form{
     margin-right: 25%;
 }
 
+
+@Media only screen and (max-width: 480px) {
+    header nav a
+    {
+        position: absolute;
+        margin-left: 0%;
+        max-width: 100%;
+    }
+    header nav
+    {
+        max-width: 100%;
+        height: 45px;
+    }
+     }
