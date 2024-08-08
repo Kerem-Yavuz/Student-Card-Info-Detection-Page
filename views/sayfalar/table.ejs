@@ -1,0 +1,46 @@
+<!-- views/partials/table.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<h3 class="soru">Aramayı hangi sütünda yapacağınızı seçiniz</h3>
+    <form action="/table/arama" method="get" class="form1">
+        
+
+    <input type="radio" id="radio1" class="radiobutton"  name="aramaturu" value="id" required>
+    <label for="radio1">Plaka Kodu</label>
+
+    <input type="radio" id="radio2" class="radiobutton"  name="aramaturu"  value="sehir_adi">
+    <label for="radio2">Şehir Adı</label>
+
+
+    <br>
+    <input type="text" name="kosul" class="searchbar" placeholder="Şehir yada Plaka No">
+    <input type="submit" value="Ara" class="searchbutton">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Plaka Kodu</th>
+                <th>Şehir Adı</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <% data.forEach(function(sehir) { %>
+                    <tr>
+                        <td><%= sehir.id %></td>
+                        <td><%= sehir.sehir_adi %></td>
+                    </tr>
+                <% }); %>
+            
+        </tbody>
+    </table>
+</body>
+</html>

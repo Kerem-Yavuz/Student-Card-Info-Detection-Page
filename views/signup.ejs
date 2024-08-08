@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <%- include('sayfalar/header', { title: 'Kayıt Ol' }) %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap</title>
+    <link href="/css/login.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="login-form">
+        <form action="/signup/check" method="get">
+          <h1>Kayıt Ol</h1>
+          <div class="content">
+            <div class="input-field">
+              <input type="name" name="username" placeholder="Kullanıcı Adı" autocomplete="nope" required>
+            </div>
+            <div class="input-field">
+              <input id="1" type="password" name="password" placeholder="şifre" autocomplete="new-password" required>
+            </div>
+            <div class="input-field">
+                <input id="2" type="password" name="password" placeholder="Tekrar Şifre" autocomplete="new-password" required>
+              </div>
+            
+          </div>
+          
+          <div class="action">
+            
+            <button type="submit" onclick="samepassword()">Kayıt Ol</button>
+          </div>
+        </form>
+
+      </div>
+    
+</body>
+<script>
+    function samepassword()
+    {
+        //id 1 ve 2 nin valularını alıp karşılaştır aynıysa submitle
+    }
+</script>
+
+</html>

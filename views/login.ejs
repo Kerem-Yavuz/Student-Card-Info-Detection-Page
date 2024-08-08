@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <%- include('sayfalar/header', { title: 'Giriş' }) %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="/css/login.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="login-form">
+        <form action="/login/check" method="get">
+          <h1>Giriş Yap</h1>
+          <div class="content">
+            <div class="input-field">
+              <input type="name" name="username" placeholder="Kullanıcı Adı" autocomplete="nope" required>
+            </div>
+            <div class="input-field">
+              <input type="password" name="password" placeholder="şifre" autocomplete="new-password" required>
+            </div>
+            
+          </div>
+          
+          <div class="action">
+            
+            <button type="submit">Giriş</button>
+          </div>
+        </form>
+
+        <button class="signupbutton" onclick="signup()">Kayıt Ol</button>
+      </div>
+    
+</body>
+<script>
+    function signup()
+    {
+        window.location.href = "/signup";
+    }
+</script>
+</html>
