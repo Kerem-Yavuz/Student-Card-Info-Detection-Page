@@ -6,5 +6,10 @@
     <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <p style="font-size: 50px; margin-left: 20%;">hoşgeldiniz</p>
+    <% if (loggedin) { %>
+        <p style="font-size: 50px; margin-left: 20%;">hoşgeldiniz, <%= username %>!</p>
+        <% } else { %>
+            <p  style="font-size: 50px; margin-left: 20%;">Hoşgeldiniz</p>
+        <% } %>
+    
 </body>

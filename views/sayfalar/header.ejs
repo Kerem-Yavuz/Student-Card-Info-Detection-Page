@@ -10,10 +10,15 @@
 <body>
     <header>
         <nav>
-            
             <a href="/anasayfa" class="headerbutton" style="margin-left: 10%;">Anasayfa</a>
-            <a href="/login" class="headerbutton" >Giriş</a>
-           
+            <% if (loggedin) { %>
+                <span><%= username %></span>
+                <a href="/table" class="headerbutton" style="margin-left: 45%;">Tablo</a>
+                <a href="/logout" class="headerbutton">Çıkış Yap</a>
+                
+            <% } else { %>
+                <a href="/login" class="headerbutton" style="margin-left:50%;">Giriş</a>
+            <% } %>
         </nav>
     </header>
 </body>
