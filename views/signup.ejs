@@ -8,36 +8,74 @@
     <link href="/css/login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div class="login-form">
-        <form action="/signup/check" method="get">
+    <div class="login-form" >
+        <form action="/signup/check" id="submitform" method="get">
           <h1>Kayıt Ol</h1>
           <div class="content">
             <div class="input-field">
-              <input type="name" name="username" placeholder="Kullanıcı Adı" autocomplete="nope" required>
+              <input type="name" id="username" name="username" placeholder="Kullanıcı Adı" autocomplete="nope" required>
+              <p id="userrequire" style="display: none; color: brown;">You Need To Write a Username*</p>
             </div>
             <div class="input-field">
               <input id="1" type="password" name="password" placeholder="şifre" autocomplete="new-password" required>
             </div>
+            
             <div class="input-field">
                 <input id="2" type="password" name="password2" placeholder="Tekrar Şifre" autocomplete="new-password" required>
-              </div>
-            
+                <p id="notsame" style="display: none; color: brown;">Passwords are not same*</p>
+                <p id="passrequire" style="display: none; color: brown;">You Need to Write a Password*</p>
+            </div>
+              
           </div>
           
           <div class="action">
             
-            <button type="submit" class="signupbutton" onclick="samepassword()">Kayıt Ol</button>
+            
           </div>
         </form>
-
+        <button class="signupbutton" onclick="samepassword()">Kayıt Ol</button>
       </div>
     
 </body>
 <script>
+  document.getElementById("notsame").style.display = "none";
+  document.getElementById("userrequire").style.display = "none";
+  document.getElementById("passrequire").style.display = "none";
     function samepassword()
     {
-        //id 1 ve 2 nin valularını alıp karşılaştır aynıysa submitle
+    let password1 = document.getElementById("1").value;
+    let password2 = document.getElementById("2").value;
+    let username = document.getElementById("username").value;
+    let form = document.getElementById("submitform");
+    console.log(username);
+    if(username !== "")
+    {
+      document.getElementById("userrequire").style.display = "none";
+      if(password1 === "" || password2 === "")
+      {
+        document.getElementById("passrequire").style.display = "block";
+      }
+      else if(password1 === password2)
+      {
+        form.submit();
+      }
+      else
+      {
+        document.getElementById("passrequire").style.display = "none";
+        document.getElementById("notsame").style.display = "block";
+      }
     }
+    else
+    {
+      document.getElementById("userrequire").style.display = "block";
+    }
+
+
+
+    
+    }
+
+    
 </script>
 
 </html>

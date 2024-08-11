@@ -76,33 +76,31 @@
     font-family: 'Rubik', sans-serif;
     cursor: pointer;
     text-transform: uppercase;
-    background: #57cca5;
-    color: #eceaea;
     
+    color:#ffffff;
+    margin-bottom: 10%;
     letter-spacing: 0.2px;
     outline: 0;
     -webkit-transition: all .3s;
     transition: all .3s;
     
   }
-  .login-form .action button:hover {
-    background: #964e4e;
-    color: black;
-    
-  }
-  .login-form .action button:nth-child(2) {
-    background: #2d3b55;
-    color: #fff;
-  }
   .login-form .action button:nth-child(1) {
+    background: #57cca5;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
   }
+  .login-form .action button:nth-child(1):hover {
+    background: #964e4e;
+    color: black;
+  }
+  .login-form .action button:nth-child(2) {
+    background: #2d3b55;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
   .login-form .action button:nth-child(2):hover {
     background: #0059ff;
-  }
-  .login-form button{
-    margin-bottom: 10%;
   }
   .signupbutton {
     width: 50%;
@@ -111,16 +109,20 @@
     font-family: 'Rubik', sans-serif;
     cursor: pointer;
     text-transform: uppercase;
-    background: #e8e9ec;
-    color: #777;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    background: #57cca5;
+    color: #ffffff;
+    border-radius: 10px;
     letter-spacing: 0.2px;
     outline: 0;
     -webkit-transition: all .3s;
     transition: all .3s;
     margin: 0 auto;
-    
+    margin-bottom: 20px;
+  }
+  .signupbutton:hover
+  {
+    background: #964e4e;
+    color: black;
   }
 
 
