@@ -29,6 +29,7 @@ con.connect(function(err) {
 app.use(session({
     secret: 'asdfhgdsoim',
     resave: false,
+    checkerror: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
@@ -48,6 +49,7 @@ function isAuthenticated(req, res, next) {
             return res.redirect('/login');
         }
         req.user = decoded;
+        req.session.checkerror = false;
         next();
     });
 }
@@ -147,9 +149,11 @@ app.get("/login", (req,res)=>
 {
     res.render("login", {
         title: 'Giriş',
+        checkerror: req.session.checkerror,
         loggedin: !!req.cookies.token,
         username: req.user ? req.user.username : null
     } );
+    
 });
 
 app.get("/login/check", (req, res) => {
@@ -174,10 +178,12 @@ app.get("/login/check", (req, res) => {
                 res.cookie('token', token, { httpOnly: true });
                 res.redirect("/table");
             } else {
-                res.send('Authentication failed.');
+                req.session.checkerror = true;
+                res.redirect("/login");
             }
         } else {
-            res.send('User not found.');
+            req.session.checkerror = true;
+            res.redirect("/login");
         }
     });
 });

@@ -12,11 +12,17 @@
         <form action="/login/check" method="get">
           <h1>Giriş Yap</h1>
           <div class="content">
+            <% if (checkerror) { %>
+              <div id="wrongpass">
+                  <p id="wrongpass" style=" color: brown;">Wrong Username and/or Password*</p>
+              </div>
+              <% checkerror = false; %> <!-- Reset checkerror after use -->
+          <% } %>
             <div class="input-field">
-              <input type="name" name="username" placeholder="Kullanıcı Adı" autocomplete="nope" required>
+              <input type="name" name="username" placeholder="KULLANICI ADI" autocomplete="nickname" required>
             </div>
             <div class="input-field">
-              <input type="password" name="password" placeholder="şifre" autocomplete="new-password" required>
+              <input type="password" name="password" placeholder="ŞİFRE" autocomplete="password" required>
             </div>
             
           </div>
@@ -33,6 +39,11 @@
     
 </body>
 <script>
+    if (<%= checkerror ? 'true' : 'false' %>) {
+          document.getElementById("wrongpass").style.display = "block";
+      }
+
+
     function signup()
     {
         window.location.href = "/signup";
