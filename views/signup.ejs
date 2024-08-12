@@ -38,11 +38,19 @@
     
 </body>
 <script>
+  function entersubmit(event) { 
+            if (event.key === "Enter") {
+                samepassword();
+            }
+        } 
+  document.addEventListener("keydown", entersubmit);//when enter clicked in login page it submits form
+
+
   document.getElementById("notsame").style.display = "none";
   document.getElementById("userrequire").style.display = "none";
   document.getElementById("passrequire").style.display = "none";
-    function samepassword()
-    {
+  function samepassword()
+  {
     let password1 = document.getElementById("1").value;
     let password2 = document.getElementById("2").value;
     let username = document.getElementById("username").value;
@@ -52,15 +60,15 @@
     {
       document.getElementById("userrequire").style.display = "none";
       if(password1 === "" || password2 === "")
-      {
+      { 
         document.getElementById("passrequire").style.display = "block";
       }
       else if(password1 === password2)
-      {
+      { 
         form.submit();
       }
       else
-      {
+      { 
         document.getElementById("passrequire").style.display = "none";
         document.getElementById("notsame").style.display = "block";
       }
@@ -69,13 +77,7 @@
     {
       document.getElementById("userrequire").style.display = "block";
     }
-
-
-
-    
-    }
-
-    
+  }
 </script>
 
 </html>

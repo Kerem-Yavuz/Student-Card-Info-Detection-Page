@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="login-form">
-        <form action="/login/check" method="get">
+        <form action="/login/check"  id="form" method="get">
           <h1>Giriş Yap</h1>
           <div class="content">
             <% if (checkerror) { %>
@@ -27,26 +27,32 @@
             
           </div>
           
-          <div class="action">
-            
-            <button type="submit">Giriş</button>
-            <button class="signupbutton" onclick="signup()">Kayıt Ol</button>
-          </div>
+          
         </form>
-
+        <div class="action" style="width: 50%; margin: 0 auto;" >
+            
+          <button type="submit" onclick="submit()">Giriş</button>
+          <button class="signupbutton" onclick="signup()">Kayıt Ol</button>
+        </div>
         
       </div>
     
 </body>
 <script>
-    if (<%= checkerror ? 'true' : 'false' %>) {
-          document.getElementById("wrongpass").style.display = "block";
-      }
+    function entersubmit(event) { 
+            if (event.key === "Enter") {
+                document.getElementById("form").submit();
+            }
+        } 
+    document.addEventListener("keydown", entersubmit);//when enter clicked in login page it submits form
 
-
+    function submit()
+    {
+      document.getElementById("form").submit();
+    } 
     function signup()
     {
         window.location.href = "/signup";
-    }
+    } 
 </script>
 </html>
