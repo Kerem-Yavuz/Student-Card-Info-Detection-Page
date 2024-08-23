@@ -14,24 +14,24 @@
           <div class="content">
             <% if (checkerror) { %>
               <div id="wrongpass">
-                  <p id="wrongpass" style=" color: brown;">Wrong Username and/or Password*</p>
+                  <p id="wrongpass" style=" color: brown;">Yanlış Şifre ve/veya kullanıcı adı*</p>
               </div>
               <% checkerror = false; %> <!-- Reset checkerror after use -->
           <% } %>
             <div class="input-field">
-              <input type="name" name="username" placeholder="KULLANICI ADI" autocomplete="nickname" required>
+              <input type="name" id="username" name="username" placeholder="KULLANICI ADI" autocomplete="nickname" required>
             </div>
             <div class="input-field">
-              <input type="password" name="password" placeholder="ŞİFRE" autocomplete="password" required>
+              <input type="password" id="password" name="password" placeholder="ŞİFRE" autocomplete="password" required>
             </div>
-            
+            <p id="empty" style="display: none; color: brown;">Gerekli Alanları Doldularmlısınız*</p>
           </div>
           
           
         </form>
         <div class="action" style="width: 50%; margin: 0 auto;" >
             
-          <button type="submit" onclick="submit()">Giriş</button>
+          <button type="submit" onclick="inputCheck()">Giriş</button>
           <button class="signupbutton" onclick="signup()">Kayıt Ol</button>
         </div>
         
@@ -41,15 +41,25 @@
 <script>
     function entersubmit(event) { 
             if (event.key === "Enter") {
-                document.getElementById("form").submit();
+                inputCheck();
             }
         } 
     document.addEventListener("keydown", entersubmit);//when enter clicked in login page it submits form
 
-    function submit()
+    function inputCheck()
     {
-      document.getElementById("form").submit();
+      let pass = document.getElementById("password").value;
+      let user = document.getElementById("username").value;
+      if(pass === "" || user === "")
+      {
+        document.getElementById("empty").style.display = "block";
+      }
+      else{
+        document.getElementById("form").submit();
+      }
     } 
+
+
     function signup()
     {
         window.location.href = "/signup";

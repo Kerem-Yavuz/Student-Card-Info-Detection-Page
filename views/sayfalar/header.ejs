@@ -6,19 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <style>
+        header
+        {
+            box-shadow: 0 -6px 10px 10px rgba(0, 0, 0, 0.479);
+           
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
-            <a href="/anasayfa" class="headerbutton" style="margin-left: 10%;">Anasayfa</a>
+            <a href="/anasayfa" class="headerbutton" style="margin-left: 10%; margin-right: 35%;">Anasayfa</a>
             <% if (loggedin) { %>
                 <span><%= username %></span>
-                <a href="/info" class="headerbutton" style="margin-left: 45%;">Info</a>
+                <a href="/info" class="headerbutton">Info</a>
                 <a href="/table" class="headerbutton">Tablo</a>
+                <a href="/uploadImage" class="headerbutton">Image</a>
                 <a href="/logout" class="headerbutton">Çıkış Yap</a>
                 
             <% } else { %>
-                <a href="/login" class="headerbutton" style="margin-left:60%;">Giriş</a>
+                <a href="/login" class="headerbutton" style="margin-left:30%;">Giriş</a>
             <% } %>
         </nav>
     </header>
