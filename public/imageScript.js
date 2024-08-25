@@ -30,6 +30,13 @@ inputElement.addEventListener("change", (e) => {
         processImage(originalImageData);
     };
 }, false);
+async function updateProgress(progress)
+{
+    console.log(progress);
+    document.getElementById('progressBar').style.width = progress + '%';
+    document.getElementById('progressBar').innerText = progress + '%';
+    await new Promise(resolve => setTimeout(resolve, 10));// wait 0.01 seconds to better progress bar
+}
 function reset()
 {   
     location.reload();
@@ -43,23 +50,28 @@ document.addEventListener('keydown', function(event) {
 });
 
 let croppedImage;
-function processImage(imageData) {
+async function processImage(imageData) {
+    await updateProgress(10);
     let img = new Image();
     img.onload = async function() {
+        
         let src = cv.imread(img);
         let threshold = new cv.Mat();
+        
         
 
         // Convert to grayscale and apply threshold or edge detection
         threshold = filter(src);
         cv.imshow("canvasOutput", threshold);//output it into canvasOutput so we can get the data and send it to the performOCR
         cv.imshow("canvasoutputrect", threshold);
-
+        
+        await updateProgress(15);
         let dataURL = document.getElementById("canvasOutput").toDataURL("image/png");
         await performOCR(dataURL);
+        
+        
 
-
-        function detectFace() {
+        async function detectFace() {
     
             var faceCanvas = document.getElementById("outputFace"); // faceCanvas is the id of faceCanvas tag
     
@@ -71,24 +83,29 @@ function processImage(imageData) {
             var classifier = new cv.CascadeClassifier();
             var utils = new Utils('errorMessage');
             var faceCascadeFile = 'haarcascade_frontalface_default.xml'; // path to xml
-    
+            
+            await updateProgress(45);
             // Load the classifier
-            utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
+            utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, async () => {
                 classifier.load(faceCascadeFile); // Load the cascade from file 
-    
+                
+                await updateProgress(50);
                 // Process the image after the cascade has been loaded
                 processfaceCanvas();
+                
             });
     
             async function processfaceCanvas() {
                 let foundedFaces= 0;
                 // Convert the image to grayscale
                 cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY, 0);
-    
+                
+                await updateProgress(55);
                 try {
                     // Detect faces
                     classifier.detectMultiScale(gray, faces, 1.1, 3, 0);
                     
+                    await updateProgress(60);
                 } catch (err) {
                     console.log(err);
                 }
@@ -99,6 +116,7 @@ function processImage(imageData) {
                     
                     if(face.width >= src.cols*0.05 && face.height >= src.rows*0.05)
                     {
+                        
                         foundedFaces++;
 
                         let point1; 
@@ -128,9 +146,14 @@ function processImage(imageData) {
                             point4
                         ];
                         console.log(points);
+                        
+                        await updateProgress(80);
                         orderPoints(points);
                         cropImage();
+                        
+                        await updateProgress(100);
                         cv.rectangle(src, point1, point2, [255, 0, 0, 255],src.cols/300);
+                        
                     }
                 }
                 if(foundedFaces === 0)
@@ -149,7 +172,7 @@ function processImage(imageData) {
                 classifier.delete();
             }
         }
-
+        await updateProgress(40);
         cv.imshow("outputFace", src);//output into outputFace so that detectFace function can get it from there
         detectFace();
 
@@ -203,7 +226,9 @@ function filter(input)
     cv.cvtColor(input, gray, cv.COLOR_RGB2GRAY, 0);
 
         // Apply binary thresholding
-    cv.adaptiveThreshold(gray, threshold, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 63,17);
+    //cv.threshold(gray, threshold, 215,255,cv.THRESH_BINARY);
+    cv.adaptiveThreshold(gray, threshold, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 63,15);
+    
     return threshold;
 }
 
@@ -267,21 +292,30 @@ function calculateDimensions(points) {
 
 
 async function performOCR(imgData) {
-    await fetch('/performOCR', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ imgData }) // Ensure imgData is a string
-    })
-    .then(response => response.json())
-    .then(data => {
+    await updateProgress(20);
+    try {
+        let response = await fetch('/performOCR', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ imgData })
+        });
+
+        await updateProgress(25);
+
+        let data = await response.json();
+
+        await updateProgress(35);
+
         document.getElementById('detectedText').textContent = data.text;
         console.log(data.text);
-    })
-    .catch(error => {
+
+        await updateProgress(40);
+    } catch (error) {
         console.error('Error:', error);
-    });
+        await updateProgress(0); // Handle error case if needed
+    }
 }
 
 

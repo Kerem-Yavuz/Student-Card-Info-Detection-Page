@@ -1,0 +1,167 @@
+button/*game restart/flip coin buttons*/
+{
+    background-color: #CCF2F4;
+    border: none;
+    color: white;
+    padding: 15px 4%;
+    text-align: center;
+    text-decoration: none;
+    font-size: 3ch;
+    font-family: "Silkscreen", cursive;
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    z-index:1000;
+    float: right;
+    border-radius: 5px;
+    transparency: 10%;
+    color: black;
+    border: 3px solid #A4EBF3;
+    box-shadow: 0px 0px 10px #00e5ff;
+    min-width: 150px;
+    min-height: 100px
+}
+button:hover {
+  background: #A4EBF3;
+  border: 3px solid #325d62;
+  box-shadow: 0px 0px 10px #000000;
+}
+
+#script
+{
+  overflow: hidden;
+  position: relative;
+  margin-left: 30%;
+}
+table{
+  margin: 0 auto;
+}
+
+
+
+
+
+
+/* score board*/
+/* adding font */
+@font-face {
+  font-family: 'Silkscreen';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/silkscreen/v4/m8JXjfVPf62XiF7kO-i9YL1la1OD.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Silkscreen';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/silkscreen/v4/m8JXjfVPf62XiF7kO-i9YLNlaw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* adding font ends */
+
+.container {
+  margin-top: 100px;
+  margin-left: 50px;
+  margin-right: 50px;
+  max-width: 575px;
+  max-height: 350px;
+  background: #CCF2F4;
+  border-radius: 12px;
+  border: 3px solid #A4EBF3;
+  display: flex;
+  align-self: center;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  padding: 50px 50px;
+  padding-top: 10px;
+  gap: 100px;
+  box-shadow: 0px 0px 10px #00e5ff;
+}
+.roundContainer
+{
+  font-size: 30px;
+  margin-left: 50px;
+  margin-right: 50px;
+  max-width: 575px;
+  max-height: 350px;
+  background: #CCF2F4;
+  border-radius: 12px;
+  border: 3px solid #A4EBF3;
+  justify-content: space-around;
+  color: white;
+  gap: 100px;
+  box-shadow: 0px 0px 10px #00e5ff;
+  font-family: "Silkscreen", cursive;
+  font-style: normal;
+  font-weight: 400;
+  color:black;
+  text-align: right;
+}
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.col-heading h1 {
+  font-family: "Tahoma";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 36px;
+  text-align: center;
+
+  color: black;
+}
+.col-displayO {
+  width: 155px;
+  height: 120px;
+  background: #080001;
+  border-radius: 5px;
+  font-family: "Silkscreen", cursive;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 90px;
+  line-height: 110px;
+  text-align: center;
+  color: #A4EBF3;
+}
+.col-displayX {
+  width: 155px;
+  height: 120px;
+  background: #080001;
+  border-radius: 5px;
+  font-family: "Silkscreen", cursive;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 90px;
+  line-height: 110px;
+  text-align: center;
+  color: #A4EBF3;
+}
+
+.col-points {
+
+  display: flex;
+  gap: 10px;
+}
+@media only screen and (max-width: 600px) {
+  body {
+    /*overflow-y: scroll;*/
+    padding:20px 0px;
+    height:auto;
+  }
+  .container {
+    margin: auto auto;
+    padding-block: 30px;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 100%;
+  }
+}
+/* score board ends*/

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/headerStyle.css" rel="stylesheet" type="text/css">
     <style>
         header
         {
@@ -20,9 +20,9 @@
             <a href="/anasayfa" class="headerbutton" style="margin-left: 10%; margin-right: 35%;">Anasayfa</a>
             <% if (loggedin) { %>
                 <span><%= username %></span>
-                <a href="/info" class="headerbutton">Info</a>
+                <a href="/game" class="headerbutton">Oyun</a>
                 <a href="/table" class="headerbutton">Tablo</a>
-                <a href="/uploadImage" class="headerbutton">Image</a>
+                <a href="/uploadImage" class="headerbutton">Yazı Algılama</a>
                 <a href="/logout" class="headerbutton">Çıkış Yap</a>
                 
             <% } else { %>

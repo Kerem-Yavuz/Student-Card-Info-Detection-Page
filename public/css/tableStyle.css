@@ -5,44 +5,6 @@ body {
     background-color: #eef8e8;
 }
 
-header {
-    background-color: #254610;
-    color: white;
-    padding: 20px 0;
-    font-size: 20px;
-    width:auto;
-    
-}
-
-header nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-}
-.headerbutton
-{
-    transition-duration: 0.2s;
-    background-color: #eef8e8;
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border: 1px solid black;
-    border-radius: 10px;
-    color:black;
-    
-}
-.headerbutton:hover
-{
-    background-color: #cad3c4;
-    
-}
-
-h1 {
-    text-align: center;
-}
-
-
-
 table {
     margin-left: 43%;
     margin-top: 10px;

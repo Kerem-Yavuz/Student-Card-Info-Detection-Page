@@ -85,7 +85,6 @@ function isHavePriv(privType) {
                 return res.status(404).send('User not found');
             }
 
-            let groupID = userResults[0].groupID;
 
             // Variables for constructing the query
             let priv;
@@ -161,6 +160,14 @@ app.get("/anasayfa", (req,res) => {
 
 app.get("/uploadImage",isAuthenticated, isHavePriv(3), (req,res) => {
     res.render("uploadImage",{
+        title: 'Text Detection',
+        loggedin: !!req.cookies.token,
+        username: req.user ? req.user.username : null
+    });
+});
+
+app.get("/game",isAuthenticated, isHavePriv(3), (req,res) => {
+    res.render("game",{
         title: 'Text Detection',
         loggedin: !!req.cookies.token,
         username: req.user ? req.user.username : null
