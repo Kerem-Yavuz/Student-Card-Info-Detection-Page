@@ -5,7 +5,9 @@
     border-radius: 25px;
     overflow: hidden;
     transition: width 1s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
+    margin-top: 15px;
 }
 
 .progress-bar {
@@ -17,4 +19,64 @@
     line-height: 30px;
     color: white;
     border-radius: 25px 0 0 25px;
+}
+
+#cropped
+{
+    width: 80%;
+    height: 80%;
+    margin-left: 10%;
+}
+table
+{
+    background-color: #e5eedf;
+    border-radius: 20px;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+#infotd
+{
+    padding-left: 10px;
+    padding-right: 20px;
+    
+}
+
+p{
+    background-color: white;
+    border-radius: 20px;
+    padding:20px;
+    padding-right: 100px;
+    
+}
+
+.button
+{
+    
+    transition-duration: 0.2s;
+    background-color:  #254610;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    color:rgb(255, 255, 255);
+    
+}
+.button:hover
+{
+    background-color:  #4c633e;
+    
+}
+#buttoncontainer
+{
+    margin-left: 37%;
+    margin-right: 33%;
+    margin-top: 15px;
+}
+#detectedText
+{
+    width:50%;
+    margin: 0 auto;
+    margin-top: 10px;
 }

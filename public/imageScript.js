@@ -12,6 +12,7 @@ let originalImageData = null; // To store the original image data for OpenCV pro
 
 
 inputElement.addEventListener("change", (e) => {
+    e.preventDefault();
     imgElement.src = URL.createObjectURL(e.target.files[0]);
     imgElement.onload = function() {
         console.log("Image uploaded Successfully");
@@ -19,7 +20,7 @@ inputElement.addEventListener("change", (e) => {
         canvas.width = imgElement.naturalWidth;
         canvas.height = imgElement.naturalHeight;
         ctx.drawImage(imgElement, 0, 0);
-
+        
         // Store original image data for OpenCV processing
         originalImageData = canvas.toDataURL('image/png');
         
@@ -36,6 +37,10 @@ async function updateProgress(progress)
     document.getElementById('progressBar').style.width = progress + '%';
     document.getElementById('progressBar').innerText = progress + '%';
     await new Promise(resolve => setTimeout(resolve, 10));// wait 0.01 seconds to better progress bar
+    if(progress >= 100)
+    {
+
+    }
 }
 function reset()
 {   
@@ -159,6 +164,8 @@ async function processImage(imageData) {
                 if(foundedFaces === 0)
                 {
                     console.error("no faces found");
+                    alert("No Faces Found in Image");
+                    updateProgress(100);
                 }
     
                 // Display the result on the canvas
@@ -178,7 +185,7 @@ async function processImage(imageData) {
 
         async function cropImage()
         {
-            const cropCanvas = document.getElementById('canvasOutput');
+            const cropCanvas = document.getElementById('cropped');
             const ctx = cropCanvas.getContext('2d');
 
             // Calculate the crop area from the points

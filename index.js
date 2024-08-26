@@ -91,13 +91,13 @@ function isHavePriv(privType) {
 
             // Determine the condition field based on privType
             switch (privType) {
-                case 1: // For tablePriv
+                case 1: // For game page
+                    priv = 'game_priv';
+                    break;
+                case 2: // For table page 
                     priv = 'table_priv';
                     break;
-                case 2: // For namePriv
-                    priv = 'info_priv';
-                    break;
-                case 3: 
+                case 3: //for text detection page
                     priv = 'image_priv';
                     break;
                 default:
@@ -141,15 +141,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/info", isAuthenticated, isHavePriv(2), (req,res) => {
-    res.render("info", {
-        title: 'Info',
-        loggedin: !!req.cookies.token,
-        username: req.user ? req.user.username : null,
-        password: req.cookies.token
-    });
-});
-
 app.get("/anasayfa", (req,res) => {
     res.render("main", {
         title: 'Anasayfa',
@@ -166,7 +157,7 @@ app.get("/uploadImage",isAuthenticated, isHavePriv(3), (req,res) => {
     });
 });
 
-app.get("/game",isAuthenticated, isHavePriv(3), (req,res) => {
+app.get("/game",isAuthenticated, isHavePriv(1), (req,res) => {
     res.render("game",{
         title: 'Text Detection',
         loggedin: !!req.cookies.token,
@@ -189,7 +180,7 @@ app.get('/getImages',isAuthenticated, isHavePriv(3), async (req, res) => { // Ch
     }
 });
 
-app.get("/table", isAuthenticated, isHavePriv(1),  (req,res) => { //gets all values from data for /anasayfa
+app.get("/table", isAuthenticated, isHavePriv(2),  (req,res) => { //gets all values from data for /anasayfa
     let  query = 'SELECT id, sehir_adi FROM webfinal.sehirler';
     con.query(query, function (err, datas) {
         res.render('DB', {
@@ -201,7 +192,7 @@ app.get("/table", isAuthenticated, isHavePriv(1),  (req,res) => { //gets all val
     });
 });
 
-app.get("/table/arama",isAuthenticated, isHavePriv(1), (req, res) => { // gets values for given queries
+app.get("/table/arama",isAuthenticated, isHavePriv(2), (req, res) => { // gets values for given queries
     const nesne = {
         kosul: req.query.kosul,
         aramaturu: req.query.aramaturu,

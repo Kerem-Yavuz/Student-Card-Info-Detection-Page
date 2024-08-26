@@ -11,19 +11,63 @@
     
 </head>
 <body>
-<h2>Text Detection and Recognition</h2>
+
 
 <div>
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
     <img id="imageSrc" alt="No Image" style="display:none;" />
-    <input type="file" id="fileInput" name="file" />
-    <input type="button" onclick="reset()" value="reset">
-    <canvas id="canvasOutput" ></canvas>
-    <canvas id="canvasoutputrect"></canvas>
-    <canvas id="outputFace"></canvas>
-    <canvas id ="cropped"></canvas>
+    <div id="buttoncontainer">
+        <input class="button" type="file" id="fileInput" name="file" />
+        <input class="button" type="button" onclick="reset()" value="RESET">
+    </div>
+    
+    <canvas id="canvasOutput" style="display: none;"></canvas>
+    <canvas id="canvasoutputrect" style="display: none;"></canvas>
+    <canvas id="outputFace" style="display: none;"></canvas>
+    <table>
+        <tr>
+            <td id="infotd">
+                <p>ad</p>
+            </td>
+            <td rowspan="6">
+                <canvas id ="cropped"></canvas>
+            </td>
+        </tr>
+        <tr>
+            <td id="infotd">
+                <p>soyad</p>
+            </td>
+            
+        </tr>
+        <tr>
+            <td id="infotd">
+                <p>tc</p>
+            </td>
+            
+        </tr>
+        <tr>
+            <td id="infotd">
+                <p>okulno</p>
+            </td>
+            
+        </tr>
+        <tr>
+            <td id="infotd">
+                <p>fak</p>
+            </td>
+            
+        </tr>
+        <tr>
+            <td id="infotd">
+                <p>bölüm</p>
+            </td>
+            
+        </tr>
+        
+    </table>
+    
 </div>
 <p id = "detectedText" style="font-size: 20px;">Text</p>
 </body>
