@@ -18,10 +18,15 @@
         <div class="progress-bar" id="progressBar"></div>
     </div>
     <img id="imageSrc" alt="No Image" style="display:none;" />
-    <div id="buttoncontainer">
-        <input class="button" type="file" id="fileInput" name="file" />
+    <div class="buttons">
+        <input class="button" type="file" id="fileInput" name="file">
+    </div>
+    
+    <div class ="buttons">
         <input class="button" type="button" onclick="reset()" value="RESET">
     </div>
+    
+    
     
     <canvas id="canvasOutput" style="display: none;"></canvas>
     <canvas id="canvasoutputrect" style="display: none;"></canvas>
@@ -29,7 +34,7 @@
     <table>
         <tr>
             <td id="infotd">
-                <p>ad</p>
+                <p class="outputs" id="name">ad</p>
             </td>
             <td rowspan="6">
                 <canvas id ="cropped"></canvas>
@@ -37,31 +42,31 @@
         </tr>
         <tr>
             <td id="infotd">
-                <p>soyad</p>
+                <p class="outputs" id="surname">soyad</p>
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <p>tc</p>
+                <p class="outputs" id="tckimlikno">tc</p>
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <p>okulno</p>
+                <p class="outputs" id="studentno">okulno</p>
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <p>fak</p>
+                <p class="outputs" id="faculty">fak</p>
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <p>bölüm</p>
+                <p class="outputs" id="department">bölüm</p>
             </td>
             
         </tr>
@@ -69,6 +74,6 @@
     </table>
     
 </div>
-<p id = "detectedText" style="font-size: 20px;">Text</p>
+<p id = "detectedText"  style="font-size: 20px;">Text</p>
 </body>
 </html>

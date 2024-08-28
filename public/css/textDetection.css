@@ -1,5 +1,5 @@
 .progress-container {
-    width: 80%;
+    width: 50%;
     max-width: 600px;
     background-color: #ddd;
     border-radius: 25px;
@@ -33,20 +33,27 @@ table
     border-radius: 20px;
     margin: 0 auto;
     margin-top: 15px;
+    max-width: 50%;
 }
 
 #infotd
 {
-    padding-left: 10px;
-    padding-right: 20px;
-    
+    padding-left: 1.5%;
+    padding-right: 2%;
+    max-width: 50%;
 }
 
-p{
+
+.outputs{
     background-color: white;
-    border-radius: 20px;
-    padding:20px;
-    padding-right: 100px;
+    border-radius: 20vh;
+    padding:5%;
+    width: 20vw;
+    padding-right: 1vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:clip;
+    font-size: 2.5vh;
     
 }
 
@@ -55,28 +62,41 @@ p{
     
     transition-duration: 0.2s;
     background-color:  #254610;
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
     border: 1px solid black;
     border-radius: 10px;
     color:rgb(255, 255, 255);
-    
+    width: 20%;
+    height: 10%;
+    font-size: 2.3vh;
 }
 .button:hover
 {
     background-color:  #4c633e;
     
 }
-#buttoncontainer
-{
-    margin-left: 37%;
-    margin-right: 33%;
-    margin-top: 15px;
-}
 #detectedText
 {
     width:50%;
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 1vh;
+}
+.buttons
+{
+    margin-top: 15px;
+    text-align: center;
+}
+
+@Media only screen and (max-width: 480px)
+{
+    table
+    {
+        max-width: 90%;
+    }
+    .progress-container
+    {
+        width:80%;
+    }
 }

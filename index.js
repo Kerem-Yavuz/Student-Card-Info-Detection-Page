@@ -344,7 +344,7 @@ app.post('/performOCR', async (req, res) => {
 
         const ocrOutput = replaceNewlines(text);
 
-        const data = {};
+        const info = {};
         
         // Helper function to clean and normalize text
         function cleanText(text) {
@@ -369,16 +369,40 @@ app.post('/performOCR', async (req, res) => {
         for (const [key, pattern] of Object.entries(patterns)) {
             const match = ocrOutput.match(pattern);
             if (match) {
-                data[key] = match[1].trim();
+                info[key] = match[1].trim();
+                
+            }
+            if(!match)
+            {
+                info[key] = "NotFound";
             }
         }
+
         
         // Log the extracted data
-        console.log(JSON.stringify(data, null, 2));
-    
+        //console.log(JSON.stringify(data, null, 2));
+        
         randomImgName = generateRandomString(10);//create global name for the image
+       
+        let tckimlikno = (info["tckimlikno"]);
+        let ad = (info["ad"]);
+        let soyad = (info["soyad"]);
+        let ogrencino = (info["ogrencino"]);
+        let fakulte = (info["fakulte"]);
+        let bolum = (info["bolum"]);
+        console.log(randomImgName);
+        addToJson(JSON.stringify(info, null, 2));//add the name of the image to the json file
 
-        addToJson(JSON.stringify(data, null, 2));//add the name of the image to the json file
+        let outputQuery = `INSERT INTO \`login\`.\`outputs\` 
+(\`output_name\`, \`output_surname\`, \`output_tckimlikno\`, \`output_student_id\`, \`output_faculty\`, \`output_department\`, \`output_imageName\`) 
+VALUES ('${ad}', '${soyad}', '${tckimlikno}', '${ogrencino}', '${fakulte}', '${bolum}', '${randomImgName}');`;
+        console.log(outputQuery);
+        con.query(outputQuery, function (err, results) {
+            if (err) {
+                return res.status(500).send('Database query failed.');
+            }
+            
+        });
         
         
 
@@ -388,7 +412,7 @@ app.post('/performOCR', async (req, res) => {
         // Delete the file after processing
         await fs.unlink(imagePath);
 
-        res.json({ text });
+        res.json({ text,info });
     } catch (err) {
         console.error('OCR error:', err);
         res.status(500).send('Error processing image');
@@ -402,6 +426,14 @@ function generateRandomString(length) {
         const randomIndex = Math.floor(Math.random() * characters.length);
         result += characters[randomIndex];
     }
+    let date = new Date();
+    let year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    result = year+month+day+hours+minutes+seconds+ "-" + result;
     return result;
 }
 
@@ -409,11 +441,10 @@ const imagesDir = path.join(__dirname, 'uploads/images/');
 
 
 
-app.post('/upload', async (req, res) => {    
+app.post('/upload', async (req, res) => {  //upload works after perforOCR if the client side finds the face  
     try {
         const { imgData } = req.body;
 
-        console.log(randomImgName);
         if(randomImgName === undefined)//i dont know but when i restart node index.js it calls this upload function
             return;                    //when it calls at the start without image upload randomImgName will be undefined 
                                         //and it creates undefined.png with the image that is in the not reloaded page

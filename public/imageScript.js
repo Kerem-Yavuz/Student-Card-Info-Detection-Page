@@ -74,7 +74,9 @@ async function processImage(imageData) {
         let dataURL = document.getElementById("canvasOutput").toDataURL("image/png");
         await performOCR(dataURL);
         
-        
+        await updateProgress(40);
+        cv.imshow("outputFace", src);//output into outputFace so that detectFace function can get it from there
+        detectFace();
 
         async function detectFace() {
     
@@ -179,9 +181,7 @@ async function processImage(imageData) {
                 classifier.delete();
             }
         }
-        await updateProgress(40);
-        cv.imshow("outputFace", src);//output into outputFace so that detectFace function can get it from there
-        detectFace();
+
 
         async function cropImage()
         {
@@ -212,7 +212,7 @@ async function processImage(imageData) {
 
             // Convert canvas to a data URL (base64) and send to server
             const croppedImage = cropCanvas.toDataURL(`image/${format}`);
-            await upload(croppedImage);
+            await upload(croppedImage);//sends the croppedImage to the serverside
         }
     
 
@@ -316,7 +316,13 @@ async function performOCR(imgData) {
         await updateProgress(35);
 
         document.getElementById('detectedText').textContent = data.text;
-        console.log(data.text);
+        document.getElementById("name").innerHTML = data.info["ad"];
+        document.getElementById("surname").innerHTML = data.info["soyad"];
+        document.getElementById("tckimlikno").innerHTML = data.info["tckimlikno"];
+        document.getElementById("studentno").innerHTML = data.info["ogrencino"];
+        document.getElementById("faculty").innerHTML = data.info["fakulte"];
+        document.getElementById("department").innerHTML = data.info["bolum"];
+        console.log(data.info);
 
         await updateProgress(40);
     } catch (error) {
