@@ -28,9 +28,9 @@ app.use('/uploads/images', express.static(uploadImagesDir));
 
 
 var con = mysql.createConnection({//mysql connections
-    host: "localhost",
-    user: "kerem",
-    password: "150921",
+    host: "172.18.1.230",
+    user: "root",
+    password: "Selim123!",
     database: "login",
     port: 3306
     });
@@ -391,7 +391,6 @@ app.post('/performOCR', async (req, res) => {
         let fakulte = (info["fakulte"]);
         let bolum = (info["bolum"]);
         console.log(randomImgName);
-        addToJson(JSON.stringify(info, null, 2));//add the name of the image to the json file
 
         let outputQuery = `INSERT INTO \`login\`.\`outputs\` 
 (\`output_name\`, \`output_surname\`, \`output_tckimlikno\`, \`output_student_id\`, \`output_faculty\`, \`output_department\`, \`output_imageName\`) 
@@ -466,41 +465,6 @@ app.post('/upload', async (req, res) => {  //upload works after perforOCR if the
         res.status(500).send('An error occurred while processing your request.');
     }
 });
-
-function addToJson(data) {
-        
-        if (typeof data === 'string') {
-            //Parses Json String
-            let dataObject = JSON.parse(data);
-
-            // Check dataObject
-            if (typeof dataObject === 'object' && !Array.isArray(dataObject)) {
-                //Assigns new Data
-                let newData = {
-                    fileName: `${randomImgName}.png`,
-                };
-    
-                Object.assign(dataObject,newData);
-    
-                // write the updated json into newjson
-                let newJson = JSON.stringify(dataObject, null, 2);
-    
-                // write the newJson into to the data.json file
-                fs.writeFile("data.json", newJson, (err) => {
-                    if (err) throw err;
-                    console.log("newData added");
-                   });
-            } 
-
-        } 
-}
-
-
-
-
-
-
-
 
 
 
