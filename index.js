@@ -28,9 +28,12 @@ app.use('/uploads/images', express.static(uploadImagesDir));
 
 
 var con = mysql.createConnection({//mysql connections
-    host: "172.18.1.230",
-    user: "root",
-    password: "Selim123!",
+    //host: "172.18.1.230",
+    //user: "root",
+    //password: "Selim123!",
+    host: "localhost",
+    user: "kerem",
+    password: "150921",
     database: "login",
     port: 3306
     });

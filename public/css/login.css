@@ -2,20 +2,21 @@
   .login-form {
     background: #fff;
     min-width: 30%;
-    width: 500px;
+    width: 30%;
+    margin: 0 auto;
     margin-top: 10%;
-    margin-left: 33%;
+    
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
             flex-direction: column;
     border-radius:2em;
-    border-bottom: solid 5px rgba(0, 0, 0, 0.3);
-    border-right: solid 5px rgba(0, 0, 0, 0.3);
+    border-bottom: solid 0.5vw rgba(0, 0, 0, 0.3);
+    border-right: solid 0.5vh rgba(0, 0, 0, 0.3);
   }
   .login-form h1 {
-    padding: 35px 35px 0 35px;
+    padding: 10% 10% 0 10%;
     font-weight: 300;
   }
   .login-form .content {
@@ -23,16 +24,18 @@
     text-align: left;
   }
   .login-form .input-field {
-    padding: 12px 5px;
+    padding-bottom: 10%;
+    text-align: center;
 
   }
 
   .login-form .input-field input {
+    
     font-size: 16px;
     display: block;
     font-family: 'Rubik', sans-serif;
-    width: 100%;
-    padding: 10px 1px;
+    width: 13vw;
+    padding: 5% 1%;
     border: 0;
     border-bottom: 1px solid #747474;
     outline: none;
@@ -58,7 +61,7 @@
   .login-form .action button {
     width: 100%;
     border: none;
-    padding: 18px;
+    padding: 8%;
     font-family: 'Rubik', sans-serif;
     cursor: pointer;
     text-transform: uppercase;
@@ -89,6 +92,7 @@
     background: #0059ff;
   }
   .signupbutton {
+    margin: 0 auto;
     width: 50%;
     border: none;
     padding: 18px;
@@ -102,7 +106,6 @@
     outline: 0;
     -webkit-transition: all .3s;
     transition: all .3s;
-    margin: 0 auto;
     margin-bottom: 20px;
   }
   .signupbutton:hover
@@ -117,124 +120,41 @@
 
 
 
-table {
-    margin-left: 43%;
-    margin-top: 10px;
-    border-collapse: collapse;
-    border: 1px solid rgb(0, 0, 0);
-    
-}
-
-th{
-    background-color: #e3f5d7;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid black;
-}
-
-td {
-    background-color: #e3f5d7;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid black;
-}
-td:hover {
-    background-color: #e1e8dd;
-    
-}
-tr {
-    background-color: #254610;
-}
-
-
-.form1{
-    margin-left: 43%;
-    margin-top: 10px;
-    text-align: start;
-}
-
-.searchbar
-{
-    margin-top: 10px;
-    font-size: 18px; /* Adjust the font size */
-    padding: 10px; /* Adjust the padding */
-    height: 20px; /* Adjust the height */
-    width: 37%;
-}
-.searchbutton
-{
-    
-    background-color: #1d4b20;
-    color: #e1e8dd;
-    padding: 10px 20px; /* Adjust padding (vertical padding, horizontal padding) */
-    font-size: 16px; /* Adjust the font size */
-    height: 40px; /* Adjust the height */
-    width: 100px; /* Adjust the width */
-    border: none; /* Optional: Remove border */
-    border-radius: 4px;
-}
-
-.radiobutton
-{
-    margin-top: 10px;
-    margin-left: 1.5%;
-}
-
-.soru
-{
-    text-align: center;
-}
-
-input[type='radio']:after {
-    width: 15px;
-    height: 15px;
-    border-radius: 15px;
-    top: -2px;
-    left: -1px;
-    position: relative;
-    background-color: #d1d3d1;
-    content: '';
-    display: inline-block;
-    visibility: visible;
-    border: 2px solid white;
-}
-
-input[type='radio']:checked:after {
-    width: 15px;
-    height: 15px;
-    border-radius: 15px;
-    top: -2px;
-    left: -1px;
-    position: relative;
-    background-color: #143b0c;
-    content: '';
-    display: inline-block;
-    visibility: visible;
-    border: 2px solid white;
-}
-
-
 
 
 form{
-    margin-left: 25%;
-    margin-right: 25%;
+    margin: 0 auto;
 }
 
 
-  @Media only screen and (max-width: 480px) {
+@Media only screen and (max-width: 550px) {
     .login-form
     {
-        margin: 0 auto;
+
+        margin-top: 5%;
         width: 70%;
-        height: 500px
+        height: 50%;
     }
-     }
+    .login-form .input-field input
+    {
+      margin: 0 auto;
+      width: 50vw;
+    }
+    .login-form .action
+    {
+      margin-right: 1000px;
+      text-align: center;
+    }
+    .login-form .action button 
+    {
+      padding: 16%;
+    }
+}
     
     /* Mobile Landscape */
-    @Media only screen and (max-width: 734px) {
+@Media only screen and (max-width: 734px) {
     #html{
     position: relative;
     
     }
-     }
+}
