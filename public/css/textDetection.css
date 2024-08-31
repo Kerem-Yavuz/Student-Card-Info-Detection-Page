@@ -1,4 +1,18 @@
-.progress-container {
+html
+{
+    font-family: Arial, sans-serif;
+}
+.outputs:focus, .button:focus, .submitbutton:focus
+{
+    transition: 0.2s;
+    outline: 3px solid #4A90E2; /* Blue outline for focus visibility */
+    outline-offset: 2px;       /* Offset for better appearance */
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+
+#progress-container {
+    display: none;
     width: 50%;
     max-width: 600px;
     background-color: #ddd;
@@ -7,7 +21,7 @@
     transition: width 1s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     margin: 0 auto;
-    margin-top: 15px;
+    margin-top: 45vh;
 }
 
 .progress-bar {
@@ -29,6 +43,7 @@
 }
 table
 {
+    display: none;
     background-color: #e5eedf;
     border-radius: 20px;
     margin: 0 auto;
@@ -45,16 +60,24 @@ table
 
 
 .outputs{
+    border: none;
     background-color: white;
-    border-radius: 20vh;
+    border-radius: 5vmin;
     padding:5%;
     width: 20vw;
     padding-right: 1vw;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow:clip;
+    overflow-x: ellipsis;
     font-size: 2.5vmin;
-    
+    margin-top: 5%;
+}
+
+.auto-expand
+{
+    border-radius: 3vmin;
+    height: calc(3 * 20px);
+    resize: none;
+    overflow-y: hidden;
+    font-family: Arial, sans-serif;
 }
 .button::file-selector-button {
     transition-duration: 0.2s;
@@ -72,7 +95,7 @@ table
     text-overflow:clip;
     transition-duration: 0.2s;
     background-color:  #254610;
-    padding: 1%;
+    padding: 1.5%;
     padding-left: 2%;
     padding-right: 2%;
     border: 1px solid black;
@@ -82,11 +105,17 @@ table
     height: 10%;
     font-size: 2.2vmin;
     width: fit-content;
+    text-overflow: hidden;
+    white-space: pre-wrap;
 }
 .button:hover
 {
     background-color:  #4c633e;
-    
+}
+
+#reset
+{
+    display: none;
 }
 #detectedText
 {
@@ -100,7 +129,28 @@ table
     text-align: center;
 }
 
-@Media only screen and (max-aspect-ratio: 9/16)/*for phones*/
+.submitbutton
+{
+    width: 70%;
+    height: 8vh;
+    border: none;
+    border-radius: 2vmin;
+    margin: 10%;
+    margin-top: 2%;
+    margin-bottom: 5%;
+    color: white;
+    font-size: 2.5vmin;
+    text-overflow: hidden;
+    white-space: pre-wrap;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.548);
+}
+
+.submitbutton:hover
+{
+    cursor: pointer;
+}
+
+@Media only screen and (max-width: 480px)/*for phones*/
 {
     table
     {
@@ -109,6 +159,7 @@ table
     .outputs
     {
         font-size: 2.4vmax;
+        width: 100%;
     }
     .progress-container
     {
@@ -116,7 +167,7 @@ table
     }
     .button
     {
-        width: 50%;
+        width: 40%;
         height: 4vh;
         font-size: 2.3vmax;
     }
@@ -124,12 +175,20 @@ table
     {
         width: 100%;
     }
+    .submitbutton
+    {
+        font-size: 3vmax;
+    }
+    .auto-expand
+    {
+        height: calc(6* 20px);
+    }
 }
 
-@Media only screen and (min-aspect-ratio: 9/16) and (max-aspect-ratio: 3/4) {/*for tablets*/
+@Media only screen and (min-width:480px) and (max-width: 780px) {/*for tablets*/
     table
     {
-        max-width: 90%;
+        max-width: 100%;
     }
     .progress-container
     {
@@ -140,13 +199,25 @@ table
         width: 40%;
         height: 5vh;
         font-size: 2.2vmax;
+        padding-top: 1%;
+        padding-bottom: 3%;
     }
     .outputs
     {
         font-size: 3vmax;
+        width: 100%;
     }
     .button::file-selector-button
     {
         width: 100%;
+        height: 100%;
+    }
+    .submitbutton
+    {
+        font-size: 3vmax;
+    }
+    .auto-expand
+    {
+        height: calc(5* 20px);
     }
 }

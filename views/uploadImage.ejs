@@ -14,7 +14,7 @@
 
 
 <div>
-    <div class="progress-container">
+    <div id="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
     <img id="imageSrc" alt="No Image" style="display:none;" />
@@ -23,7 +23,7 @@
     </div>
     
     <div class ="buttons">
-        <input class="button" type="button" onclick="reset()" value="RESET">
+        <input class="button" id="reset" type="button" onclick="reset()" value="Yeni Resim Yükle">
     </div>
     
     
@@ -31,10 +31,11 @@
     <canvas id="canvasOutput" style="display: none;"></canvas>
     <canvas id="canvasoutputrect" style="display: none;"></canvas>
     <canvas id="outputFace" style="display: none;"></canvas>
-    <table>
+
+    <table id="output">
         <tr>
             <td id="infotd">
-                <p class="outputs" id="name">ad</p>
+                <input class="outputs" id="name" type="text" placeholder="İsim">
             </td>
             <td rowspan="6">
                 <canvas id ="cropped"></canvas>
@@ -42,38 +43,48 @@
         </tr>
         <tr>
             <td id="infotd">
-                <p class="outputs" id="surname">soyad</p>
+                <input class="outputs" id="surname" type="text" placeholder="Soyisim">
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <p class="outputs" id="tckimlikno">tc</p>
+                <input class="outputs" id="tckimlikno" type="text" placeholder="T.C. Kimlik No">
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <p class="outputs" id="studentno">okulno</p>
+                <input class="outputs" id="studentno" type="text" placeholder="Öğrenci No">
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <p class="outputs" id="faculty">fak</p>
+                <textarea class="outputs auto-expand" id="faculty" type="text" placeholder="Fakülte"></textarea>
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <p class="outputs" id="department">bölüm</p>
+                <textarea class="outputs auto-expand" id="department" placeholder="Bölüm"></textarea>
             </td>
             
+        </tr>
+        <tr>
+            <td>
+                <input style="background-color: rgb(148, 0, 0);" class="submitbutton" onclick="reset()" type="button" value = "Yeniden Yükle">
+            </td>
+            <td>
+                <input style="background-color: rgb(71, 146, 71);" class="submitbutton" onclick="submit()" type="button" value="Onayla">
+            </td>
         </tr>
         
     </table>
-    
+
 </div>
-<p id = "detectedText"  style="font-size: 20px;">Text</p>
+<p id = "detectedText"  style="font-size: 20px; display: none;">Text</p>
+
+
 </body>
 </html>

@@ -136,7 +136,7 @@ app.use((req, res, next) => {
             const decoded = jwt.verify(req.cookies.token, JWT_SECRET);
             req.user = decoded; // Set the decoded token as req.user
         } catch (err) {
-            console.error('Token verification failed:', err);
+            
             res.clearCookie('token');
             return res.redirect("/anasayfa");
         }
@@ -150,6 +150,15 @@ app.get("/anasayfa", (req,res) => {
         loggedin: !!req.cookies.token,
         username: req.user ? req.user.username : null
     });
+});
+
+app.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/anasayfa');
+});
+
+app.get('/', (req, res) => {
+    res.redirect('/anasayfa');
 });
 
 app.get("/uploadImage",isAuthenticated, isHavePriv(3), (req,res) => {
@@ -181,6 +190,17 @@ app.get('/getImages',isAuthenticated, isHavePriv(3), async (req, res) => { // Ch
         console.error('Error reading images directory:', err);
         res.status(500).send('Error reading images directory');
     }
+});
+
+app.get('/confirmation',isAuthenticated,isHavePriv(3), (req, res)=> {
+    const submitID = req.query.submitID;
+    res.render("confirmation",
+        {
+            title:'Confirmed',
+            loggedin: !!req.cookies.token,
+            username: req.user ? req.user.username : null,
+            submitID: submitID
+        });
 });
 
 app.get("/login", (req,res)=>
@@ -333,14 +353,15 @@ app.post('/performOCR', async (req, res) => {
             }
             if(!match)
             {
-                info[key] = "NotFound";
+                
+                info[key] = key + " Not Found";
             }
         }
 
         
         randomImgName = generateRandomString(10);//create global name for the image
        
-        let tckimlikno = (info["tckimlikno"]);
+        /*let tckimlikno = (info["tckimlikno"]);
         let ad = (info["ad"]);
         let soyad = (info["soyad"]);
         let ogrencino = (info["ogrencino"]);
@@ -355,7 +376,7 @@ VALUES ('${ad}', '${soyad}', '${tckimlikno}', '${ogrencino}', '${fakulte}', '${b
                 return res.status(500).send('Database query failed.');
             }
             
-        });
+        });*/   //BURAYI KAPATMAMIZIN SEBEBİ ONAYLANDIKTAN SONRA DB YE YOLLANMASI ONAYLANMADAN DBYE KAYDETMESİNİ İSTİYORSAK BUNU AÇICAZ
         
         
 
@@ -420,18 +441,42 @@ app.post('/upload', async (req, res) => {  //upload works after perforOCR if the
     }
 });
 
+app.post('/submit-output-data', (req, res) => {
+    const { name, surname, tckimlikno, studentno, faculty, department } = req.body;
 
-
-
-
-app.get('/logout', (req, res) => {
-    res.clearCookie('token');
-    res.redirect('/anasayfa');
+    const query = `
+    INSERT INTO \`outputs\` 
+    (\`output_name\`, \`output_surname\`, \`output_tckimlikno\`, \`output_student_id\`, \`output_faculty\`, \`output_department\`, \`output_imageName\`) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    const values = [name, surname, tckimlikno, studentno, faculty, department, randomImgName];
+    
+    con.query(query, values, (err, result) => {
+        if (err) {
+            res.redirect('/uploadImage');
+        } else {
+            // Redirect to the confirmation page with submitID assigned to randomImgName
+            res.send(randomImgName);
+        }
+        
+    });
 });
+/*app.post('/idcheck', (req,res)=>
+{
+    let submitID = [`"${req.body.submitID}"`];
+    let query = " SELECT * FROM outputs where output_imageName=" + submitID;
+    con.query(query,(err,result)=>
+    {
+        if (err) {
+            res.redirect('/uploadImage');
+        } 
+        if(result.length > 0)
+        {
+            console.log(result);
+        }
+    });
+});*/
 
-app.get('/', (req, res) => {
-    res.redirect('/anasayfa');
-});
 
 function hashPassword(password) {
     // Hash the password with SHA-1 in binary format

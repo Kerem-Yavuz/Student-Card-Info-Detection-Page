@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('sayfalar/header', { title: 'Confirmation Page' }) %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Page</title>
+    <link href="/css/textDetection.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div style="background-color: white; padding: 5vmin; margin: 0 auto; margin-top: 10%; border-radius: 2vmin; width: fit-content; font-size: 3vmin;">
+        <h2>Başarıyla Kaydedildi!</h2>
+        <p>ID: <%= submitID %></p>
+        <input class="button" id="reset" type="button" onclick="send()" style="display: block; margin: 0 auto;" value="Yeni Resim Yükle">
+    </div>
+    
+</body>
+<script>
+    const submitID = "<%= submitID %>";
+    console.log(submitID);
+    if(!submitID)
+    {
+        location.replace("/uploadImage");
+        
+    }
+    function send()
+    {
+        location.replace("/uploadImage");
+    }
+    /*fetch('/idcheck',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({submitID})
+    })
+    .then(result => {
+        if(!result)
+        {
+            location.replace("/uploadImage");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });*/
+</script>
+</html>

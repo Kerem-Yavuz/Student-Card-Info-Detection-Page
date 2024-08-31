@@ -20,7 +20,11 @@ inputElement.addEventListener("change", (e) => {
         canvas.width = imgElement.naturalWidth;
         canvas.height = imgElement.naturalHeight;
         ctx.drawImage(imgElement, 0, 0);
-        
+
+        document.getElementById("progress-container").style.display = "block";
+        document.getElementById("fileInput").style.display = "none";
+
+
         // Store original image data for OpenCV processing
         originalImageData = canvas.toDataURL('image/png');
         
@@ -31,6 +35,8 @@ inputElement.addEventListener("change", (e) => {
         processImage(originalImageData);
     };
 }, false);
+
+
 async function updateProgress(progress)
 {
     console.log(progress);
@@ -39,22 +45,56 @@ async function updateProgress(progress)
     await new Promise(resolve => setTimeout(resolve, 10));// wait 0.01 seconds to better progress bar
     if(progress >= 100)
     {
-
+        document.getElementById("progress-container").style.display = "none";//dont display the progress barr
+        document.getElementById("output").style.display = "table";// show the table for changing outputs
+        document.getElementById("reset").style.display = "inline-block";// show the button for uploading new image
     }
 }
+
+
 function reset()
 {   
     location.reload();
     console.log('reset');
 }
 
+function submit()
+{
+    let data = {
+        name: document.getElementById('name').value,
+        surname: document.getElementById('surname').value,
+        tckimlikno: document.getElementById('tckimlikno').value,
+        studentno: document.getElementById('studentno').value,
+        faculty: document.getElementById('faculty').value,
+        department: document.getElementById('department').value
+    };
+
+    fetch('/submit-output-data',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.text())
+    .then(result => {
+        let submitID = encodeURIComponent(result);
+        let url = `/confirmation?submitID=${submitID}`;
+        location.replace(url);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
 document.addEventListener('keydown', function(event) {
-    if (event.key === 'r' || event.key === 'R') {
-        reset();
-    }
+
 });
 
+
 let croppedImage;
+
+
 async function processImage(imageData) {
     await updateProgress(10);
     let img = new Image();
@@ -316,12 +356,12 @@ async function performOCR(imgData) {
         await updateProgress(35);
 
         document.getElementById('detectedText').textContent = data.text;
-        document.getElementById("name").innerHTML = data.info["ad"];
-        document.getElementById("surname").innerHTML = data.info["soyad"];
-        document.getElementById("tckimlikno").innerHTML = data.info["tckimlikno"];
-        document.getElementById("studentno").innerHTML = data.info["ogrencino"];
-        document.getElementById("faculty").innerHTML = data.info["fakulte"];
-        document.getElementById("department").innerHTML = data.info["bolum"];
+        document.getElementById("name").value = data.info["ad"];
+        document.getElementById("surname").value = data.info["soyad"];
+        document.getElementById("tckimlikno").value = data.info["tckimlikno"];
+        document.getElementById("studentno").value = data.info["ogrencino"];
+        document.getElementById("faculty").value = data.info["fakulte"];
+        document.getElementById("department").value = data.info["bolum"];
         console.log(data.info);
 
         await updateProgress(40);
