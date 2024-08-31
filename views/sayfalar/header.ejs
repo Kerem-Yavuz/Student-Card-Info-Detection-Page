@@ -21,12 +21,11 @@
             <% if (loggedin) { %>
                 <span style="padding: 0.8%;" ><%= username %></span>
                 <a href="/game" class="headerbutton">Oyun</a>
-                <a href="/table" class="headerbutton">Tablo</a>
                 <a href="/uploadImage" class="headerbutton">Yazı Algılama</a>
                 <a href="/logout" class="headerbutton" >Çıkış Yap</a>
                 
             <% } else { %>
-                <a href="/login" class="headerbutton" style="margin-left: 30%;">Giriş</a>
+                <a href="/login" id="giris" class="headerbutton" >Giriş</a>
             <% } %>
         </nav>
     </header>

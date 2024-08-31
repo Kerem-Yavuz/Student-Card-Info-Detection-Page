@@ -110,7 +110,7 @@ async function processImage(imageData) {
                 await updateProgress(55);
                 try {
                     // Detect faces
-                    classifier.detectMultiScale(gray, faces, 1.1, 3, 0);
+                    classifier.detectMultiScale(gray, faces, 1.1, 15, 0);
                     
                     await updateProgress(60);
                 } catch (err) {

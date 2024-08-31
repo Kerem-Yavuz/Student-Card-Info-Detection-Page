@@ -183,49 +183,6 @@ app.get('/getImages',isAuthenticated, isHavePriv(3), async (req, res) => { // Ch
     }
 });
 
-app.get("/table", isAuthenticated, isHavePriv(2),  (req,res) => { //gets all values from data for /anasayfa
-    let  query = 'SELECT id, sehir_adi FROM webfinal.sehirler';
-    con.query(query, function (err, datas) {
-        res.render('DB', {
-            data: datas,           // Pass the data from your query
-            title: 'Tablo',        // Page title
-            loggedin: !!req.cookies.token, // Session variables
-            username: req.user.username
-        });
-    });
-});
-
-app.get("/table/arama",isAuthenticated, isHavePriv(2), (req, res) => { // gets values for given queries
-    const nesne = {
-        kosul: req.query.kosul,
-        aramaturu: req.query.aramaturu,
-    };
-
-    let query;
-    let values;
-
-    if (nesne.aramaturu === "id") {
-        query = 'SELECT id, sehir_adi FROM webfinal.sehirler WHERE id LIKE ?';
-        values = [`%${nesne.kosul}%`];
-    } 
-    else if (nesne.aramaturu === "sehir_adi") {
-        query = 'SELECT id, sehir_adi FROM webfinal.sehirler WHERE sehir_adi LIKE ?';
-        values = [`%${nesne.kosul}%`];
-    }
-
-    con.query(query, values, function (err, datas) {
-        if (err) {
-            return res.status(500).send('Database query failed.');
-        }
-        res.render('DB', {
-            data: datas,           // Pass the data from your query
-            title: 'Tablo',        // Page title
-            loggedin: !!req.cookies.token, // Session variables
-            username: req.user.username
-        });
-    });
-});
-
 app.get("/login", (req,res)=>
 {
     
@@ -260,7 +217,7 @@ app.get("/login/check", (req, res) => {
                 const token = jwt.sign({ username: person.username }, JWT_SECRET, { expiresIn: '1h' });// creates token 
                 res.cookie('token', token, { httpOnly: true }); //stores that token in cookie
                 req.session.checkerror = false;
-                res.redirect("/table");
+                res.redirect("/uploadImage");
             } else {//Wrong password
                 req.session.checkerror = true;
                 res.redirect("/login");
@@ -342,7 +299,6 @@ app.post('/performOCR', async (req, res) => {
 
         // Perform OCR on the image file
         const { data: { text } } = await worker.recognize(imagePath , 'tur');
-        console.log('Detected text:', text);
         
 
         const ocrOutput = replaceNewlines(text);
@@ -360,12 +316,12 @@ app.post('/performOCR', async (req, res) => {
         
         // Patterns for extraction with potential OCR variations
         const patterns = {
-            tckimlikno: /t\.?c\.?\s*kimlik\s*no\s*[:\s]*(\d{11})/i, // T.C. Kimlik No - 11 haneli
-            ad: /ad[iı]\s*[:\s]*([\wşŞçÇğĞıİöÖüÜ]+)/i,
-            soyad: /soyadı\s*[:\s]*([\wşŞçÇğĞıİöÖüÜ]+)/i,
-            ogrencino: /öğrenci\s*no\s*[:\s]*(\d{8})/i, // Öğrenci No - 8 haneli
-            fakulte: /fak\.\s*\/?\s*ens\.\s*\/?\s*yo\s*[:\s]*([\wşŞçÇğĞıİöÖüÜ\s\.]+)/i,
-            bolum: /bölüm\s*\/\s*program\s*[:\s]*([\wşŞçÇğĞıİöÖüÜ\s]+)/i
+            tckimlikno: /t\.?c\.?\s*kimlik\s*no\s*[:\s]*(\d{11})/i, // T.C. Kimlik No - 11 digits
+            ad: /ad[iı]\s*[:\s]*([\wşŞçÇğĞıİöÖüÜ]+)/i, // First name
+            soyad: /soyadı\s*[:\s]*([\wşŞçÇğĞıİöÖüÜ]+)/i, // Last name
+            ogrencino: /öğrenci\s*no\s*[:\s]*(\d{8})/i, // Student Number - 8 digits
+            fakulte: /fak\.\s*\/?\s*ens\.\s*\/?\s*yo\s*[:\s]*([\wşŞçÇğĞıİöÖüÜ\s\.]+?Fak\.)/i, // Faculty ending with "Fak."
+            bolum: /bölüm\s*\/\s*program\s*[:\s]*([\wşŞçÇğĞıİöÖüÜ\s]+?Bölümü)/i // Department/Program ending with "Bölümü"
         };
         
         // Extract data using patterns
@@ -382,9 +338,6 @@ app.post('/performOCR', async (req, res) => {
         }
 
         
-        // Log the extracted data
-        //console.log(JSON.stringify(data, null, 2));
-        
         randomImgName = generateRandomString(10);//create global name for the image
        
         let tckimlikno = (info["tckimlikno"]);
@@ -393,12 +346,10 @@ app.post('/performOCR', async (req, res) => {
         let ogrencino = (info["ogrencino"]);
         let fakulte = (info["fakulte"]);
         let bolum = (info["bolum"]);
-        console.log(randomImgName);
 
         let outputQuery = `INSERT INTO \`login\`.\`outputs\` 
 (\`output_name\`, \`output_surname\`, \`output_tckimlikno\`, \`output_student_id\`, \`output_faculty\`, \`output_department\`, \`output_imageName\`) 
 VALUES ('${ad}', '${soyad}', '${tckimlikno}', '${ogrencino}', '${fakulte}', '${bolum}', '${randomImgName}');`;
-        console.log(outputQuery);
         con.query(outputQuery, function (err, results) {
             if (err) {
                 return res.status(500).send('Database query failed.');

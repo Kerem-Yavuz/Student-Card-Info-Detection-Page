@@ -53,13 +53,23 @@ table
     white-space: nowrap;
     overflow: hidden;
     text-overflow:clip;
-    font-size: 2.5vh;
+    font-size: 2.5vmin;
     
+}
+.button::file-selector-button {
+    transition-duration: 0.2s;
+    background-color: #eef8e8;
+    padding: 2%;
+    padding-left: 3.4%;
+    padding-right: 3.4%;
+    border: 1px solid black;
+    border-radius: 1.5vmin;
+    color:black;
 }
 
 .button
 {
-    
+    text-overflow:clip;
     transition-duration: 0.2s;
     background-color:  #254610;
     padding: 1%;
@@ -70,7 +80,8 @@ table
     color:rgb(255, 255, 255);
     width: 20%;
     height: 10%;
-    font-size: 2.3vh;
+    font-size: 2.2vmin;
+    width: fit-content;
 }
 .button:hover
 {
@@ -89,14 +100,53 @@ table
     text-align: center;
 }
 
-@Media only screen and (max-width: 480px)
+@Media only screen and (max-aspect-ratio: 9/16)/*for phones*/
 {
+    table
+    {
+        max-width: 90%;
+    }
+    .outputs
+    {
+        font-size: 2.4vmax;
+    }
+    .progress-container
+    {
+        width:80%;
+    }
+    .button
+    {
+        width: 50%;
+        height: 4vh;
+        font-size: 2.3vmax;
+    }
+    .button::file-selector-button
+    {
+        width: 100%;
+    }
+}
+
+@Media only screen and (min-aspect-ratio: 9/16) and (max-aspect-ratio: 3/4) {/*for tablets*/
     table
     {
         max-width: 90%;
     }
     .progress-container
     {
-        width:80%;
+        width: 80%;
+    }
+    .button
+    {
+        width: 40%;
+        height: 5vh;
+        font-size: 2.2vmax;
+    }
+    .outputs
+    {
+        font-size: 3vmax;
+    }
+    .button::file-selector-button
+    {
+        width: 100%;
     }
 }
