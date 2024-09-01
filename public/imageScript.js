@@ -47,7 +47,7 @@ async function updateProgress(progress)
     {
         document.getElementById("progress-container").style.display = "none";//dont display the progress barr
         document.getElementById("output").style.display = "table";// show the table for changing outputs
-        document.getElementById("reset").style.display = "inline-block";// show the button for uploading new image
+        document.getElementById("reset1").style.display = "inline-block";// show the button for uploading new image
     }
 }
 
@@ -81,6 +81,7 @@ function submit()
 {
     document.getElementById("output").style.display = "none";
     document.getElementById("load").style.display = "flex";
+    document.getElementById("reset1").style.display = "none";
     let data = {
         name: document.getElementById('name').value,
         surname: document.getElementById('surname').value,
@@ -99,6 +100,7 @@ function submit()
     })
     .then(response => response.text())
     .then(result => {
+        document.getElementById("reset2").style.display = "inline-block";
         document.getElementById("load").style.display = "none";
         document.getElementById("confirmbox").style.display = "block";
         document.getElementById("confirm").innerHTML = "ID:" + result;

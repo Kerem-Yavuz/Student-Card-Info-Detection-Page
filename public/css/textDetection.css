@@ -113,7 +113,11 @@ table
     background-color:  #4c633e;
 }
 
-#reset
+#reset1
+{
+    display: none;
+}
+#reset2
 {
     display: none;
 }
@@ -155,11 +159,49 @@ table
     display: none;
     background-color: white; 
     padding: 5vmin; margin: 0 auto; 
+    font-size: 3vmin;
     margin-top: 10%;
     border-radius: 2vmin;
-    width: fit-content;
+    width: 20%;
     font-size: 3vmin;
 }
+
+
+/* WebKit-based browsers (Chrome, Safari, Edge) */
+::-webkit-input-placeholder { /* Placeholder text color */
+    color: #ccc;
+}
+::-webkit-scrollbar { /* Scrollbar appearance */
+    width: 12px;
+}
+::-webkit-scrollbar-track { /* Track appearance */
+    background-color: #f1f1f1;
+}
+::-webkit-scrollbar-thumb { /* Thumb appearance */
+    background-color: #888;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { /* Thumb hover effect */
+    background-color: #555;
+}
+
+/* Firefox */
+:-moz-placeholder { /* Placeholder text color */
+    color: #ccc;
+}
+textarea::-moz-placeholder { /* Placeholder for textareas */
+    opacity: 1;
+    color: #ccc;
+}
+button::-moz-focus-inner { /* Remove dotted border on buttons */
+    border: 0;
+}
+.scrollbar-thumb { /* Scrollbar appearance */
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+
 
 @Media only screen and (max-width: 480px)/*for phones*/
 {
@@ -193,6 +235,11 @@ table
     .auto-expand
     {
         height: calc(6* 20px);
+    }
+    #confirmbox
+    {
+        width: 80%;
+        font-size: 3vmax;
     }
 }
 
@@ -230,5 +277,10 @@ table
     .auto-expand
     {
         height: calc(5* 20px);
+    }
+    #confirmbox
+    {
+        width: 50%;
+        font-size: 3vmax;
     }
 }
