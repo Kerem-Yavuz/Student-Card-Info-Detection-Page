@@ -192,16 +192,6 @@ app.get('/getImages',isAuthenticated, isHavePriv(3), async (req, res) => { // Ch
     }
 });
 
-app.get('/confirmation',isAuthenticated,isHavePriv(3), (req, res)=> {
-    const submitID = req.query.submitID;
-    res.render("confirmation",
-        {
-            title:'Confirmed',
-            loggedin: !!req.cookies.token,
-            username: req.user ? req.user.username : null,
-            submitID: submitID
-        });
-});
 
 app.get("/login", (req,res)=>
 {

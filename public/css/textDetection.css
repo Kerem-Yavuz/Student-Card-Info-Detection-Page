@@ -150,6 +150,17 @@ table
     cursor: pointer;
 }
 
+#confirmbox
+{
+    display: none;
+    background-color: white; 
+    padding: 5vmin; margin: 0 auto; 
+    margin-top: 10%;
+    border-radius: 2vmin;
+    width: fit-content;
+    font-size: 3vmin;
+}
+
 @Media only screen and (max-width: 480px)/*for phones*/
 {
     table

@@ -8,24 +8,56 @@
     <script async src="prebuild/utils.js" type="text/javascript"></script>
     <script src="imageScript.js" defer></script>
     <link href="/css/textDetection.css" rel="stylesheet" type="text/css">
+
+    <style>
+        /* Center the loader in the page */
+        .loader-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* The loading spinner */
+        .loader {
+            border: 3vmin solid #f3f3f3; /* Light grey */
+            border-top: 3vmin solid rgb(71, 146, 71); /* green */
+            border-left: 3vmin solid rgb(71, 146, 71); /* green */
+            border-radius: 50%;
+            width: 20vmin;
+            height: 20vmin;
+            animation: spin 3s linear infinite;
+        }
+
+        /* Animation keyframes */
+        @keyframes spin {
+            0% { transform: rotate(0deg);  border-top: 3vmin solid rgb(71, 146, 71); border-left: 3vmin solid rgb(71, 146, 71);}
+            50% { transform: rotate(360deg);  border-top: 3vmin solid rgb(170, 50, 50); border-left: 3vmin solid rgb(170, 50, 50);}
+            100% { transform: rotate(720deg);  border-top: 3vmin solid rgb(71, 146, 71); border-left: 3vmin solid rgb(71, 146, 71);}
+        }
+    </style>
     
 </head>
 <body>
 
 
-<div>
+
     <div id="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
     <img id="imageSrc" alt="No Image" style="display:none;" />
+    
     <div class="buttons">
         <input class="button" type="file" id="fileInput" name="file" accept="image/*">
     </div>
-    
-    <div class ="buttons">
-        <input class="button" id="reset" type="button" onclick="reset()" value="Yeni Resim Yükle">
+    <div class="buttons">
+        <input class="button" id="reset" type="button" onclick="checkBeforeReset()" value="Yeni Resim Yükle">
     </div>
     
+
+    <div id="load" class="loader-container">
+        <div class="loader"></div>
+    </div>
     
     
     <canvas id="canvasOutput" style="display: none;"></canvas>
@@ -35,7 +67,7 @@
     <table id="output">
         <tr>
             <td id="infotd">
-                <input class="outputs" id="name" type="text" placeholder="İsim">
+                <input class="outputs" id="name" type="text" placeholder="İsim" maxlength="45">
             </td>
             <td rowspan="6">
                 <canvas id ="cropped"></canvas>
@@ -43,19 +75,19 @@
         </tr>
         <tr>
             <td id="infotd">
-                <input class="outputs" id="surname" type="text" placeholder="Soyisim">
+                <input class="outputs" id="surname" type="text" placeholder="Soyisim" maxlength="45">
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <input class="outputs" id="tckimlikno" type="text" placeholder="T.C. Kimlik No">
+                <input class="outputs" id="tckimlikno" type="number" placeholder="T.C. Kimlik No"  maxlength="11">
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <input class="outputs" id="studentno" type="text" placeholder="Öğrenci No">
+                <input class="outputs" id="studentno" type="number" placeholder="Öğrenci No"  maxlength="8">
             </td>
             
         </tr>
@@ -73,7 +105,7 @@
         </tr>
         <tr>
             <td>
-                <input style="background-color: rgb(148, 0, 0);" class="submitbutton" onclick="reset()" type="button" value = "Yeniden Yükle">
+                <input style="background-color: rgb(148, 0, 0);" class="submitbutton" onclick="valuereset()" type="button" value = "Sıfırla">
             </td>
             <td>
                 <input style="background-color: rgb(71, 146, 71);" class="submitbutton" onclick="submit()" type="button" value="Onayla">
@@ -82,7 +114,12 @@
         
     </table>
 
-</div>
+    <div id ="confirmbox">
+        <h2>Başarıyla Kaydedildi!</h2>
+        <p id="confirm">ID: </p>
+        <input class="button" id="reset" type="button" style="margin: 0 auto;" onclick="reset()" value="Yeni Resim Yükle">
+    </div>
+
 <p id = "detectedText"  style="font-size: 20px; display: none;">Text</p>
 
 

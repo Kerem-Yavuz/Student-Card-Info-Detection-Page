@@ -58,8 +58,29 @@ function reset()
     console.log('reset');
 }
 
+function valuereset()
+{
+    document.getElementById('name').value = "";
+    document.getElementById('surname').value = "";
+    document.getElementById('tckimlikno').value = "";
+    document.getElementById('studentno').value = "";
+    document.getElementById('faculty').value = "";
+    document.getElementById('department').value = "";
+}
+
+function checkBeforeReset()
+{
+    let userConfirmed = confirm("Devam Etmek İstediğinize Emin Misiniz Kaydedilmeyen Veriler Silinir");
+    if(userConfirmed)
+    {
+        reset();
+    }
+}
+
 function submit()
 {
+    document.getElementById("output").style.display = "none";
+    document.getElementById("load").style.display = "flex";
     let data = {
         name: document.getElementById('name').value,
         surname: document.getElementById('surname').value,
@@ -78,9 +99,9 @@ function submit()
     })
     .then(response => response.text())
     .then(result => {
-        let submitID = encodeURIComponent(result);
-        let url = `/confirmation?submitID=${submitID}`;
-        location.replace(url);
+        document.getElementById("load").style.display = "none";
+        document.getElementById("confirmbox").style.display = "block";
+        document.getElementById("confirm").innerHTML = "ID:" + result;
     })
     .catch(error => {
         console.error('Error:', error);
