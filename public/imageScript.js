@@ -39,7 +39,6 @@ inputElement.addEventListener("change", (e) => {
 
 async function updateProgress(progress)
 {
-    console.log(progress);
     document.getElementById('progressBar').style.width = progress + '%';
     document.getElementById('progressBar').innerText = progress + '%';
     await new Promise(resolve => setTimeout(resolve, 10));// wait 0.01 seconds to better progress bar
@@ -55,7 +54,6 @@ async function updateProgress(progress)
 function reset()
 {   
     location.reload();
-    console.log('reset');
 }
 
 function valuereset()
@@ -215,7 +213,6 @@ async function processImage(imageData) {
                             point3,
                             point4
                         ];
-                        console.log(points);
                         
                         await updateProgress(80);
                         orderPoints(points);
@@ -228,7 +225,6 @@ async function processImage(imageData) {
                 }
                 if(foundedFaces === 0)
                 {
-                    console.error("no faces found");
                     alert("No Faces Found in Image");
                     updateProgress(100);
                 }
@@ -385,7 +381,6 @@ async function performOCR(imgData) {
         document.getElementById("studentno").value = data.info["ogrencino"];
         document.getElementById("faculty").value = data.info["fakulte"];
         document.getElementById("department").value = data.info["bolum"];
-        console.log(data.info);
 
         await updateProgress(40);
     } catch (error) {

@@ -4,14 +4,15 @@
   outline: 3px solid #4A90E2; /* Blue outline for focus visibility */
   outline-offset: 2px;       /* Offset for better appearance */
   box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  z-index: 99;
 }
   .login-form {
     background: #fff;
     min-width: 30%;
     width: 30%;
     margin: 0 auto;
-    margin-top: 10%;
-    
+    margin-top: 10vh;
+    text-align: center;
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: vertical;
@@ -32,16 +33,16 @@
   .login-form .input-field {
     padding-bottom: 10%;
     text-align: center;
-
+    
   }
 
   .login-form .input-field input {
-    
+    border-radius: 1vmin;
     font-size: 16px;
     display: block;
     font-family: 'Rubik', sans-serif;
     width: 13vw;
-    padding: 5% 1%;
+    padding: 7% 2%;
     border: 0;
     border-bottom: 1px solid #747474;
     outline: none;
@@ -60,6 +61,7 @@
   .login-form .action {
     display: -webkit-box;
     display: flex;
+    width: 50%;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
             flex-direction: row;
@@ -78,6 +80,8 @@
     outline: 0;
     -webkit-transition: all .3s;
     transition: all .3s;
+
+    margin-bottom: 20%;
     
   }
   .login-form .action button:nth-child(1) {
@@ -98,10 +102,10 @@
     background: #0059ff;
   }
   .signupbutton {
+    padding: 5%;
+    
     margin: 0 auto;
-    width: 50%;
     border: none;
-    padding: 18px;
     font-family: 'Rubik', sans-serif;
     cursor: pointer;
     text-transform: uppercase;
@@ -120,11 +124,23 @@
     color: black;
   }
 
-  h1 {
-    text-align: center;
+#kayıt
+{
+  font-size: 8vmin;
 }
 
+.error
+{
+  display: none;
+  padding: 0 8%;
+  color: rgb(189, 0, 0);
+  margin-top: 0;
+}
 
+.content
+{
+  margin: 0 auto;
+}
 
 
 
@@ -133,18 +149,26 @@ form{
 }
 
 
-@Media only screen and (max-width: 550px) {
+@Media only screen and (max-width: 480px) {
     .login-form
     {
-
+      text-align: center;
         margin-top: 5%;
         width: 70%;
-        height: 50%;
+        
     }
     .login-form .input-field input
     {
-      margin: 0 auto;
-      width: 50vw;
+      height: 3vh;
+      padding: 2vmin;
+      width: 50vmin;
+      margin-bottom: 3vh;
+      margin-top: 3vh;
+    }
+    .login-form .input-field
+    {
+      height: 6vh;
+      padding: 0;
     }
     .login-form .action
     {
@@ -153,14 +177,57 @@ form{
     }
     .login-form .action button 
     {
-      padding: 16%;
+      margin-bottom: 20%;
+      margin-top: 3vh;
+    }
+    .error
+    {
+      padding: 0 8%;
+    }
+    .signupbutton
+    {
+      width: 10px;
+      
     }
 }
+
+@Media only screen and (min-width:480px) and (max-width: 780px)
+{
+  .login-form
+  {
     
-    /* Mobile Landscape */
-@Media only screen and (max-width: 734px) {
-    #html{
-    position: relative;
+      margin-top: 5%;
+      width: 50%;
+      
+  }
+  .login-form .input-field input
+  {
+    height: 3vh;
+    padding: 2vmin;
+    width: 30vmin;
+    margin-bottom: 3vh;
+    margin-top: 3vh;
+  }
+  .login-form .input-field
+  {
+    height: 6vh;
+    padding: 0;
+  }
+  .login-form .action
+  {
+    margin-right: 1000px;
     
-    }
+  }
+  .login-form .action button 
+  {
+    margin-bottom: 20%;
+    margin-top: 3vh;
+    padding: 2.5vmin;
+  }
+  .error
+  {
+    padding: 0 8%;
+    margin-top: 10%;
+    margin-bottom: 0;
+  }
 }

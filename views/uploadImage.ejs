@@ -81,13 +81,13 @@
         </tr>
         <tr>
             <td id="infotd">
-                <input class="outputs" id="tckimlikno" type="number" placeholder="T.C. Kimlik No"  maxlength="11">
+                <input class="outputs" id="tckimlikno" type="number" placeholder="T.C. Kimlik No"  oninput="this.value = this.value.slice(0, 11);">
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <input class="outputs" id="studentno" type="number" placeholder="Öğrenci No"  maxlength="8">
+                <input class="outputs" id="studentno" type="number" placeholder="Öğrenci No"  oninput="this.value = this.value.slice(0, 8);">
             </td>
             
         </tr>

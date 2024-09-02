@@ -11,24 +11,26 @@
     <div class="login-form">
         <form action="/login/check"  id="form" method="get">
           <h1>Giriş Yap</h1>
+          
           <div class="content">
-            <% if (checkerror) { %>
-              <div id="wrongpass">
-                  <p id="wrongpass" style=" color: brown;">Yanlış Şifre ve/veya kullanıcı adı*</p>
-              </div>
-              <% checkerror = false; %> <!-- Reset checkerror after use -->
-          <% } %>
+            
             <div class="input-field">
-              <input type="name" id="username" name="username" placeholder="KULLANICI ADI" autocomplete="nickname" required>
+              <input type="name" id="username" name="username" placeholder="KULLANICI ADI*" autocomplete="nickname" oninput="this.value = this.value.replace(/\s/g, '');" required>
             </div>
             <div class="input-field">
-              <input type="password" id="password" name="password" placeholder="ŞİFRE" autocomplete="password" required>
+              <input type="password" id="password" name="password" placeholder="ŞİFRE*" autocomplete="password"  oninput="this.value = this.value.replace(/\s/g, '');"  required>
             </div>
-            <p id="empty" style="display: none; color: brown;">Gerekli Alanları Doldularmlısınız*</p>
+            
           </div>
           
           
         </form>
+        <% if (checkerror) { %>
+          
+            <p class="error" style="display: block;">Yanlış Şifre ve/veya kullanıcı adı*</p>
+          <% checkerror = false; %> <!-- Reset checkerror after use -->
+      <% } %>
+        <p id="empty" class="error" >Gerekli Alanları Doldularmlısınız*</p>
         <div class="action" style="width: 50%; margin: 0 auto;" >
             
           <button type="submit" onclick="inputCheck()">Giriş</button>
@@ -39,6 +41,7 @@
     
 </body>
 <script>
+  document.getElementById("empty").style.display = "none";
     function entersubmit(event) { 
             if (event.key === "Enter") {
                 inputCheck();
@@ -48,6 +51,7 @@
 
     function inputCheck()
     {
+      document.getElementById("empty").style.display = "none";
       let pass = document.getElementById("password").value;
       let user = document.getElementById("username").value;
       if(pass === "" || user === "")

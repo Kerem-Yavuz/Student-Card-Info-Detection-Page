@@ -76,7 +76,7 @@ function isHavePriv(privType) {
         let username = req.user.username;
 
         // SQL query to get the user's groupID based on username
-        let userQuery = 'SELECT groupID FROM login.users WHERE username = ?';
+        let userQuery = 'SELECT groupID FROM login.users WHERE BINARY username = ?';
 
         con.query(userQuery, [username], (error, userResults) => {
             if (error) {
@@ -110,7 +110,7 @@ function isHavePriv(privType) {
             // Construct the SQL query
             let usernamequery = [`"${username}"`];
             
-            let privQuery = `SELECT * FROM users JOIN login.groups ON users.groupID = login.groups.groupID JOIN group_privileges on groups.privID = group_privileges.group_privilege_id  WHERE users.username = ${usernamequery} AND group_privileges.${priv};`;
+            let privQuery = `SELECT * FROM users JOIN login.groups ON users.groupID = login.groups.groupID JOIN group_privileges on groups.privID = group_privileges.group_privilege_id  WHERE BINARY users.username = ${usernamequery} AND group_privileges.${priv};`;
 
             // Execute the privilege check query
             con.query(privQuery, (error, privResults) => {
@@ -122,7 +122,7 @@ function isHavePriv(privType) {
                 if (privResults.length > 0) {
                     return next();
                 } else {
-                    console.log(privResults);
+                    
                     return res.redirect('/anasayfa');
                 }
             });
@@ -213,7 +213,7 @@ app.get("/login/check", (req, res) => {
     };
     let hashedPassword = hashPassword(person.password);// hashes the inputed password
     
-    let query = 'SELECT * FROM login.users WHERE username = ?;';
+    let query = 'SELECT * FROM login.users WHERE BINARY username = ?;';
     let name = [person.username];
     
     con.query(query, name, function (err, results) {
@@ -255,7 +255,7 @@ app.get("/signup/check", (req,res)=>
         username: req.query.username,
         password: req.query.password
     }
-    let usercheck = 'SELECT * FROM login.users WHERE username = ?;';
+    let usercheck = 'SELECT * FROM login.users WHERE BINARY username = ?;';
     let name = [person.username];
     let hashedPassword = hashPassword(person.password);
 
@@ -451,21 +451,6 @@ app.post('/submit-output-data', (req, res) => {
         
     });
 });
-/*app.post('/idcheck', (req,res)=>
-{
-    let submitID = [`"${req.body.submitID}"`];
-    let query = " SELECT * FROM outputs where output_imageName=" + submitID;
-    con.query(query,(err,result)=>
-    {
-        if (err) {
-            res.redirect('/uploadImage');
-        } 
-        if(result.length > 0)
-        {
-            console.log(result);
-        }
-    });
-});*/
 
 
 function hashPassword(password) {
