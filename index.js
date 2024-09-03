@@ -95,7 +95,7 @@ function isHavePriv(privType) {
             // Determine the condition field based on privType
             switch (privType) {
                 case 1: // For game page
-                    priv = 'game_priv';
+                    priv = 'profile_priv';
                     break;
                 case 2: // For table page 
                     priv = 'table_priv';
@@ -169,15 +169,24 @@ app.get("/uploadImage",isAuthenticated, isHavePriv(3), (req,res) => {
     });
 });
 
-app.get("/game",isAuthenticated, isHavePriv(1), (req,res) => {
-    res.render("game",{
+app.get("/info",isAuthenticated, isHavePriv(1), (req,res) => {
+    res.render("profile",{
+        title: 'Profil',
+        loggedin: true,
+        username: req.user ? req.user.username : null
+    });
+});
+
+app.get("/profile",isAuthenticated, isHavePriv(1), (req,res) => {
+    res.render("uploadImage",{
         title: 'Text Detection',
         loggedin: !!req.cookies.token,
         username: req.user ? req.user.username : null
     });
 });
 
-app.get('/getImages',isAuthenticated, isHavePriv(3), async (req, res) => { // Changed
+
+app.get('/getImages',isAuthenticated, isHavePriv(2), async (req, res) => { // Changed
     try {
         const files = await fs.readdir(uploadImagesDir);
         const images = files.filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file));
@@ -350,23 +359,6 @@ app.post('/performOCR', async (req, res) => {
 
         
         randomImgName = generateRandomString(10);//create global name for the image
-       
-        /*let tckimlikno = (info["tckimlikno"]);
-        let ad = (info["ad"]);
-        let soyad = (info["soyad"]);
-        let ogrencino = (info["ogrencino"]);
-        let fakulte = (info["fakulte"]);
-        let bolum = (info["bolum"]);
-
-        let outputQuery = `INSERT INTO \`login\`.\`outputs\` 
-(\`output_name\`, \`output_surname\`, \`output_tckimlikno\`, \`output_student_id\`, \`output_faculty\`, \`output_department\`, \`output_imageName\`) 
-VALUES ('${ad}', '${soyad}', '${tckimlikno}', '${ogrencino}', '${fakulte}', '${bolum}', '${randomImgName}');`;
-        con.query(outputQuery, function (err, results) {
-            if (err) {
-                return res.status(500).send('Database query failed.');
-            }
-            
-        });*/   //BURAYI KAPATMAMIZIN SEBEBİ ONAYLANDIKTAN SONRA DB YE YOLLANMASI ONAYLANMADAN DBYE KAYDETMESİNİ İSTİYORSAK BUNU AÇICAZ
         
         
 
@@ -451,6 +443,26 @@ app.post('/submit-output-data', (req, res) => {
         
     });
 });
+
+app.post('/getProfileData', (req, res) => {
+    const { username }  = req.body;
+    
+    const query = `SELECT * from login.users WHERE BINARY username = ?;`;
+    const values = [username];
+    
+    con.query(query, values, (err, result) => {
+        if (err) {
+            return res.status(500).send("Failed Get User Data");
+        } 
+        if (result.length > 0) {
+            res.send(result);
+        } else {
+            return res.status(500).send("Cannot get data");
+        }
+        
+    });
+});
+
 
 
 function hashPassword(password) {

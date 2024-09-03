@@ -13,7 +13,7 @@
 		<form action="/signup/check" id="submitform" method="get">
 		  <div class="content">
 			<div class="input-field">
-			  <input type="name" id="username" name="username" placeholder="KULLANICI ADI*" autocomplete="nickname" oninput="this.value = this.value.replace(/\s/g, '');" required>
+			  <input type="name" id="username" name="username" placeholder="KULLANICI ADI*" autocomplete="nickname" oninput="this.value = this.value.replace(/\s/g, ''); this.value = this.value.slice(0, 45);" required>
 			  
 			</div>
 			

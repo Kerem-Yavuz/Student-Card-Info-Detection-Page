@@ -220,13 +220,15 @@ button::-moz-focus-inner { /* Remove dotted border on buttons */
     }
     .button
     {
-        width: 40%;
+        width: 70%;
         height: 4vh;
         font-size: 2.3vmax;
+        padding-bottom: 2%;
     }
     .button::file-selector-button
     {
-        width: 100%;
+        width: 40%;
+        
     }
     .submitbutton
     {
@@ -257,8 +259,8 @@ button::-moz-focus-inner { /* Remove dotted border on buttons */
         width: 40%;
         height: 5vh;
         font-size: 2.2vmax;
-        padding-top: 1%;
-        padding-bottom: 3%;
+        
+        
     }
     .outputs
     {
@@ -267,8 +269,8 @@ button::-moz-focus-inner { /* Remove dotted border on buttons */
     }
     .button::file-selector-button
     {
-        width: 100%;
-        height: 100%;
+        width: 40%;
+        
     }
     .submitbutton
     {

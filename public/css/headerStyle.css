@@ -4,12 +4,13 @@ body {
     padding: 0;
     background-color:#eef8e8;
 }
-.headerbutton:focus
+.headerbutton:focus, #menu:focus, .nav-links li a:focus, .close-btn:focus
 {
     transition: 0.2s;
     outline: 3px solid #4A90E2; /* Blue outline for focus visibility */
     outline-offset: 2px;       /* Offset for better appearance */
     box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    border-radius: 1vmin;
 }
 
 header {
@@ -53,10 +54,92 @@ header nav a {
     margin-right: 20vmax;/*for putting other buttons to the right*/
 }
 
+#menu
+{
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.hamburger
+{
+    
+    width: 35px;
+    height: 5px;
+    background-color: rgb(255, 255, 255);
+    margin: 6px 0;
+    
+}
+.nav-links {
+    
+    list-style: none;
+    position: fixed;
+    top: 0;
+    right: -90%; /* Start hidden off-screen to the right */
+    height: 100%; /* Cover the full height */
+    width: 70%; /* Cover 90% of the screen width */
+    background-color: #2546109c;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    transition: right 0.3s ease; /* Smooth slide-in effect */
+    z-index: 1000;
+}
+
+.nav-links.open {
+    right: 0; /* Slide in from the right */
+}
+
+.nav-links li {
+    display: none;
+    margin: 20px 0;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 10vmin;
+}
+
+.close-btn {
+    display: none;
+    position: absolute;
+    top: 5vmin;
+    right: 5vmin;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 10vmin;
+    cursor: pointer;
+}
+
+
+.container
+{
+    display: none;
+}
+#namemobile
+{
+    display: inline-block;
+    font-size: 3vh;
+   margin-left: 3%;
+
+}
 
 
 
 @Media only screen and (max-width: 480px){/* for phones*/
+    
+    .container {
+        display: flex;
+        align-items: center; /* Align items vertically in the center */
+        justify-content: space-between; /* Adjust spacing between items if needed */
+    }
     .headerbutton
     {
         display: none;
@@ -71,11 +154,23 @@ header nav a {
         min-width: fit-content;
     }
     header{
-        padding: 3% 0; 
+        padding: 4% 0; 
+        
+        
     }
-
-    
-
+    #menu
+    {
+        display: inline-block;
+        margin-right: 3%;
+    }
+    #nameheader
+    {
+        display: none;
+    }
+    .close-btn,.nav-links li
+    {
+        display: inline-block;
+    }
 }
 
 @Media only screen and (min-width: 480px) and (max-width: 780px) {/*for tablets*/
