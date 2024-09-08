@@ -92,6 +92,7 @@ header nav a {
 }
 
 .nav-links.open {
+    display:none;
     right: 0; /* Slide in from the right */
 }
 
@@ -170,6 +171,15 @@ header nav a {
     .close-btn,.nav-links li
     {
         display: inline-block;
+    }
+    .nav-links.open
+    {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-content: normal;
+        justify-content: center;
+        align-items: center;
     }
 }
 

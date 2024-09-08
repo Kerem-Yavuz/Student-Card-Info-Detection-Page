@@ -92,6 +92,7 @@ table
 
 .button
 {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     text-overflow:clip;
     transition-duration: 0.2s;
     background-color:  #254610;
@@ -107,6 +108,7 @@ table
     width: fit-content;
     text-overflow: hidden;
     white-space: pre-wrap;
+    cursor: pointer;
 }
 .button:hover
 {
@@ -164,6 +166,33 @@ table
     border-radius: 2vmin;
     width: 20%;
     font-size: 3vmin;
+}
+
+
+/* Center the loader in the page */
+.loader-container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* The loading spinner */
+.loader {
+    border: 3vmin solid #f3f3f3; /* Light grey */
+    border-top: 3vmin solid rgb(71, 146, 71); /* green */
+    border-left: 3vmin solid rgb(71, 146, 71); /* green */
+    border-radius: 50%;
+    width: 20vmin;
+    height: 20vmin;
+    animation: spin 3s linear infinite;
+}
+
+/* Animation keyframes */
+@keyframes spin {
+    0% { transform: rotate(0deg);  border-top: 3vmin solid rgb(71, 146, 71); border-left: 3vmin solid rgb(71, 146, 71);}
+    50% { transform: rotate(360deg);  border-top: 3vmin solid rgb(170, 50, 50); border-left: 3vmin solid rgb(170, 50, 50);}
+    100% { transform: rotate(720deg);  border-top: 3vmin solid rgb(71, 146, 71); border-left: 3vmin solid rgb(71, 146, 71);}
 }
 
 
@@ -243,6 +272,10 @@ button::-moz-focus-inner { /* Remove dotted border on buttons */
         width: 80%;
         font-size: 3vmax;
     }
+    #resetFaceImage
+    {
+        width: 80%;
+    }
 }
 
 @Media only screen and (min-width:480px) and (max-width: 780px) {/*for tablets*/
@@ -284,5 +317,10 @@ button::-moz-focus-inner { /* Remove dotted border on buttons */
     {
         width: 50%;
         font-size: 3vmax;
+    }
+    #resetFaceImage
+    {
+        width: 60%;
+        font-size: 2.5vh;
     }
 }

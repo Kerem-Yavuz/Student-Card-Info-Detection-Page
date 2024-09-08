@@ -6,10 +6,37 @@ let points = [];
 const maxPoints = 4;
 let originalImageData = null; // To store the original image data for OpenCV processing
 
+let faceImg = document.getElementById("faceimageSrc");
+let faceinputElement = document.getElementById("resetFaceImage");
+let faceCanvas = document.getElementById("faceCanvas");
+let facectx = faceCanvas.getContext('2d');
 
+faceinputElement.addEventListener("change", (e) => {
+    e.preventDefault();
+    faceImg.src = URL.createObjectURL(e.target.files[0]);
+    faceImg.onload = async function() {
+        console.log("Image uploaded Successfully");
+        document.getElementById("noFaceFound").style.display = "none";
+        document.getElementById("faceretakebutton").style.display = "inline-block";
+        // Set canvas dimensions and draw the original image
+        faceCanvas.width = faceImg.naturalWidth;
+        faceCanvas.height = faceImg.naturalHeight;
+        facectx.drawImage(faceImg, 0, 0);
 
+        // Convert the canvas to an OpenCV Mat object
+        let src = cv.imread(faceCanvas); // Read the image from the canvas into an OpenCV Mat
 
+        // Display the image using OpenCV
+        cv.imshow("outputFace", src);
 
+        // Clear points and add event listener for clicks
+        points = [];
+        await detectFace(faceImg);
+
+        // Clean up
+        src.delete(); // Release memory used by the Mat object
+    };
+}, false);
 
 inputElement.addEventListener("change", (e) => {
     e.preventDefault();
@@ -21,8 +48,10 @@ inputElement.addEventListener("change", (e) => {
         canvas.height = imgElement.naturalHeight;
         ctx.drawImage(imgElement, 0, 0);
 
-        document.getElementById("progress-container").style.display = "block";
-        document.getElementById("fileInput").style.display = "none";
+
+
+        document.getElementById("progress-container").style.display = "block";//when image uploaded shows progress-container and hides fileInput button
+        inputElement.style.display = "none";
 
 
         // Store original image data for OpenCV processing
@@ -47,6 +76,9 @@ async function updateProgress(progress)
         document.getElementById("progress-container").style.display = "none";//dont display the progress barr
         document.getElementById("output").style.display = "table";// show the table for changing outputs
         document.getElementById("reset1").style.display = "inline-block";// show the button for uploading new image
+
+        document.getElementById('resetFaceImage').value = '';// resets the value of buttons so that same images can be uploaded
+        document.getElementById('fileInput').value = '';
     }
 }
 
@@ -56,7 +88,7 @@ function reset()
     location.reload();
 }
 
-function valuereset()
+function valuereset()//For reseting the values that found
 {
     document.getElementById('name').value = "";
     document.getElementById('surname').value = "";
@@ -66,7 +98,7 @@ function valuereset()
     document.getElementById('department').value = "";
 }
 
-function checkBeforeReset()
+function checkBeforeReset()//Asks for confirmation before reseting
 {
     let userConfirmed = confirm("Devam Etmek İstediğinize Emin Misiniz Kaydedilmeyen Veriler Silinir");
     if(userConfirmed)
@@ -75,7 +107,7 @@ function checkBeforeReset()
     }
 }
 
-function submit()
+function submit()//sends data to the mysql
 {
     document.getElementById("output").style.display = "none";
     document.getElementById("load").style.display = "flex";
@@ -100,7 +132,7 @@ function submit()
     .then(result => {
         document.getElementById("reset2").style.display = "inline-block";
         document.getElementById("load").style.display = "none";
-        document.getElementById("confirmbox").style.display = "block";
+        document.getElementById("confirmbox").style.display = "block";// after got confirm show confirm box and hides loading animation
         document.getElementById("confirm").innerHTML = "ID:" + result;
     })
     .catch(error => {
@@ -114,11 +146,11 @@ document.addEventListener('keydown', function(event) {
 
 
 let croppedImage;
-
+let img = new Image();
 
 async function processImage(imageData) {
     await updateProgress(10);
-    let img = new Image();
+    
     img.onload = async function() {
         
         let src = cv.imread(img);
@@ -137,151 +169,173 @@ async function processImage(imageData) {
         
         await updateProgress(40);
         cv.imshow("outputFace", src);//output into outputFace so that detectFace function can get it from there
-        detectFace();
-
-        async function detectFace() {
-    
-            var faceCanvas = document.getElementById("outputFace"); // faceCanvas is the id of faceCanvas tag
-    
-            // Load the image from the canvas
-            var src = cv.imread(faceCanvas);
-            var dst = new cv.Mat();
-            var gray = new cv.Mat();
-            var faces = new cv.RectVector();
-            var classifier = new cv.CascadeClassifier();
-            var utils = new Utils('errorMessage');
-            var faceCascadeFile = 'haarcascade_frontalface_default.xml'; // path to xml
-            
-            await updateProgress(45);
-            // Load the classifier
-            utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, async () => {
-                classifier.load(faceCascadeFile); // Load the cascade from file 
-                
-                await updateProgress(50);
-                // Process the image after the cascade has been loaded
-                processfaceCanvas();
-                
-            });
-    
-            async function processfaceCanvas() {
-                let foundedFaces= 0;
-                // Convert the image to grayscale
-                cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY, 0);
-                
-                await updateProgress(55);
-                try {
-                    // Detect faces
-                    classifier.detectMultiScale(gray, faces, 1.1, 15, 0);
-                    
-                    await updateProgress(60);
-                } catch (err) {
-                    console.log(err);
-                }
-    
-                // Draw rectangles around the detected faces
-                for (let i = 0; i < faces.size(); ++i) {
-                    let face = faces.get(i);
-                    
-                    if(face.width >= src.cols*0.05 && face.height >= src.rows*0.05)
-                    {
-                        
-                        foundedFaces++;
-
-                        let point1; 
-                        let point2;
-                        let point3;
-                        let point4;
-                        if(src.cols>src.rows)// for checking if the image is in portrait or landscape so that cropped image will be more accurate
-                        {
-                            point1 = new cv.Point(face.x-src.rows * 0.03, face.y-src.rows * 0.03);
-                            point2 = new cv.Point(face.x + face.width+src.rows * 0.03, face.y + face.height+src.rows * 0.03);
-                            point3 = new cv.Point(face.x-src.rows *0.03, face.y+ face.height+src.rows * 0.03);
-                            point4 = new cv.Point(face.x + face.width+src.rows * 0.03, face.y-src.rows * 0.03);
-                        }
-                        else
-                        {
-                            point1 = new cv.Point(face.x-src.cols * 0.03, face.y-src.cols * 0.03);
-                            point2 = new cv.Point(face.x + face.width+src.cols * 0.03, face.y + face.height+src.cols * 0.03);
-                            point3 = new cv.Point(face.x-src.cols *0.03, face.y+ face.height+src.cols * 0.03);
-                            point4 = new cv.Point(face.x + face.width+src.cols * 0.03, face.y-src.cols * 0.03);
-                        }
-
-                        points =
-                        [
-                            point1,
-                            point2,
-                            point3,
-                            point4
-                        ];
-                        
-                        await updateProgress(80);
-                        orderPoints(points);
-                        cropImage();
-                        
-                        await updateProgress(100);
-                        cv.rectangle(src, point1, point2, [255, 0, 0, 255],src.cols/300);
-                        
-                    }
-                }
-                if(foundedFaces === 0)
-                {
-                    alert("No Faces Found in Image");
-                    updateProgress(100);
-                }
-    
-                // Display the result on the canvas
-                cv.imshow("outputFace", src);
-    
-                // Clean up
-                src.delete();
-                dst.delete();
-                gray.delete();
-                faces.delete();
-                classifier.delete();
-            }
-        }
-
-
-        async function cropImage()
-        {
-            const cropCanvas = document.getElementById('cropped');
-            const ctx = cropCanvas.getContext('2d');
-
-            // Calculate the crop area from the points
-            const cropX = Math.min(...points.map(p => p.x));
-            const cropY = Math.min(...points.map(p => p.y));
-            const cropWidth = Math.max(...points.map(p => p.x)) - cropX;
-            const cropHeight = Math.max(...points.map(p => p.y)) - cropY;
-
-            // Set canvas size to the crop size
-            cropCanvas.width = cropWidth;
-            cropCanvas.height = cropHeight;
-
-            // Draw the cropped area on the canvas
-            ctx.drawImage(img, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
-
-            // Detect the image format
-            const originalFormat = img.src.split(';')[0].split('/')[1];  // Extract the format from the image source
-            const validFormats = ['png', 'jpeg', 'jpg', 'webp']; // Add more formats if needed
-
-            let format = 'png'; // Default format
-            if (validFormats.includes(originalFormat)) {
-                format = originalFormat;
-            }
-
-            // Convert canvas to a data URL (base64) and send to server
-            const croppedImage = cropCanvas.toDataURL(`image/${format}`);
-            await upload(croppedImage);//sends the croppedImage to the serverside
-        }
-    
-
-        //upload(dataURL);
+        detectFace(img);
 
         // Clean up
         src.delete();
         threshold.delete();
     };
     img.src = imageData;
+}
+
+
+
+
+let classifier;
+async function detectFace(imgInput0) {
+    
+    let faceCanvas = document.getElementById("outputFace"); // faceCanvas is the id of faceCanvas tag
+
+    // Load the image from the canvas
+    let src = cv.imread(faceCanvas);
+    let dst = new cv.Mat();
+    let gray = new cv.Mat();
+    let faces = new cv.RectVector();
+    
+    let faceCascadeFile = 'haarcascade_frontalface_default.xml'; // path to xml
+    
+    
+    await updateProgress(45);
+    console.log(typeof classifier);
+    if(classifier === undefined)
+    {
+        classifier = new cv.CascadeClassifier();
+        try {
+            const response = await fetch(faceCascadeFile);
+            const arrayBuffer = await response.arrayBuffer();
+            const byteArray = new Uint8Array(arrayBuffer);
+            
+            // Create a temporary file in the virtual file system
+            const file = new Uint8Array(byteArray);
+            cv.FS_createDataFile('/', faceCascadeFile, file, true, false);
+            classifier.load(faceCascadeFile);
+            processfaceCanvas();
+        } catch (error) {
+            console.error('Error loading cascade file:', error);
+            return;
+        }
+        
+    }
+    else
+    {
+        processfaceCanvas();
+    }
+    
+
+    async function processfaceCanvas() {
+        let foundedFaces= 0;
+        // Convert the image to grayscale
+        cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY, 0);
+        
+        await updateProgress(55);
+        try {
+            // Detect faces
+            classifier.detectMultiScale(gray, faces, 1.1, 15, 0);
+            
+            await updateProgress(60);
+        } catch (err) {
+            console.log(err);
+        }
+
+        // Draw rectangles around the detected faces
+        for (let i = 0; i < faces.size(); ++i) {
+            let face = faces.get(i);
+            
+            if(face.width >= src.cols*0.05 && face.height >= src.rows*0.05)
+            {
+                
+                foundedFaces++;
+
+                let point1; 
+                let point2;
+                let point3;
+                let point4;
+                if(src.cols>src.rows)// for checking if the image is in portrait or landscape so that cropped image will be more accurate
+                {
+                    point1 = new cv.Point(face.x-src.rows * 0.03, face.y-src.rows * 0.03);
+                    point2 = new cv.Point(face.x + face.width+src.rows * 0.03, face.y + face.height+src.rows * 0.03);
+                    point3 = new cv.Point(face.x-src.rows *0.03, face.y+ face.height+src.rows * 0.03);
+                    point4 = new cv.Point(face.x + face.width+src.rows * 0.03, face.y-src.rows * 0.03);
+                }
+                else
+                {
+                    point1 = new cv.Point(face.x-src.cols * 0.03, face.y-src.cols * 0.03);
+                    point2 = new cv.Point(face.x + face.width+src.cols * 0.03, face.y + face.height+src.cols * 0.03);
+                    point3 = new cv.Point(face.x-src.cols *0.03, face.y+ face.height+src.cols * 0.03);
+                    point4 = new cv.Point(face.x + face.width+src.cols * 0.03, face.y-src.cols * 0.03);
+                }
+
+                points =
+                [
+                    point1,
+                    point2,
+                    point3,
+                    point4
+                ];
+                
+                await updateProgress(80);
+                orderPoints(points);//orders points before sending it to the crop
+                cropImage(imgInput0); //crops the face that founded
+                
+                await updateProgress(100);
+                
+            }
+        }
+        if(foundedFaces === 0)// we will put upload face image button here
+        {
+            alert("No Faces Found in Image");
+            document.getElementById("cropped").style.display ="none";
+            document.getElementById("noFaceFound").style.display= "flex";
+            document.getElementById("resetFaceImage").style.display = "none";
+            document.getElementById("faceretakebutton").style.display = "none";
+            updateProgress(100);
+        }
+
+        // Display the result on the canvas
+        cv.imshow("outputFace", src);
+
+        // Clean up
+        src.delete();
+        dst.delete();
+        gray.delete();
+        faces.delete();
+        
+    }
+}
+
+
+
+async function cropImage(imgInput)
+{
+    const cropCanvas = document.getElementById('cropped');
+    const ctx = cropCanvas.getContext('2d');
+    cropCanvas.style.display = "flex";
+    document.getElementById("faceretakebutton").style.display = "inline-block";
+    // Calculate the crop area from the points
+    const cropX = Math.min(...points.map(p => p.x));
+    const cropY = Math.min(...points.map(p => p.y));
+    const cropWidth = Math.max(...points.map(p => p.x)) - cropX;
+    const cropHeight = Math.max(...points.map(p => p.y)) - cropY;
+
+    // Set canvas size to the crop size
+    cropCanvas.width = cropWidth;
+    cropCanvas.height = cropHeight;
+
+    // Draw the cropped area on the canvas
+    ctx.drawImage(imgInput, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+
+    // Detect the image format
+    const originalFormat = imgInput.src.split(';')[0].split('/')[1];  // Extract the format from the image source
+    const validFormats = ['png', 'jpeg', 'jpg', 'webp']; // Add more formats if needed
+
+    let format = 'png'; // Default format
+    if (validFormats.includes(originalFormat)) {
+        format = originalFormat;
+    }
+
+    // Convert canvas to a data URL (base64) and send to server
+    const croppedImage = cropCanvas.toDataURL(`image/${format}`);
+    await upload(croppedImage);//sends the croppedImage to the serverside
 }
 
 
@@ -324,9 +378,6 @@ function orderPoints(points)
         points[3][0] = points[3][0] + 5;
         points[3][1] = points[3][1] - 5;
 }
-
-
-
 
 
 function calculateDimensions(points) {

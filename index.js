@@ -232,8 +232,9 @@ app.get("/login/check", (req, res) => {
        
         if (results.length === 1) {
             let sqlStoredHashedPassword = results[0].password; // we have already get the password with the first query so we are just checking it here
+            
             if (sqlStoredHashedPassword === hashedPassword) {
-                const token = jwt.sign({ username: person.username }, JWT_SECRET, { expiresIn: '1h' });// creates token 
+                const token = jwt.sign({ username: person.username, id: results[0].userID }, JWT_SECRET, { expiresIn: '1h' });// creates token 
                 res.cookie('token', token, { httpOnly: true }); //stores that token in cookie
                 req.session.checkerror = false;
                 res.redirect("/uploadImage");
@@ -425,13 +426,13 @@ app.post('/upload', async (req, res) => {  //upload works after perforOCR if the
 
 app.post('/submit-output-data', (req, res) => {
     const { name, surname, tckimlikno, studentno, faculty, department } = req.body;
-
+    let id = req.user.id;
     const query = `
     INSERT INTO \`outputs\` 
-    (\`output_name\`, \`output_surname\`, \`output_tckimlikno\`, \`output_student_id\`, \`output_faculty\`, \`output_department\`, \`output_imageName\`) 
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    (\`output_name\`, \`output_surname\`, \`output_tckimlikno\`, \`output_student_id\`, \`output_faculty\`, \`output_department\`, \`output_imageName\`,\`owner_id\`) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const values = [name, surname, tckimlikno, studentno, faculty, department, randomImgName];
+    const values = [name, surname, tckimlikno, studentno, faculty, department, randomImgName,id];
     
     con.query(query, values, (err, result) => {
         if (err) {

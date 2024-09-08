@@ -10,31 +10,6 @@
     <link href="/css/textDetection.css" rel="stylesheet" type="text/css">
 
     <style>
-        /* Center the loader in the page */
-        .loader-container {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        /* The loading spinner */
-        .loader {
-            border: 3vmin solid #f3f3f3; /* Light grey */
-            border-top: 3vmin solid rgb(71, 146, 71); /* green */
-            border-left: 3vmin solid rgb(71, 146, 71); /* green */
-            border-radius: 50%;
-            width: 20vmin;
-            height: 20vmin;
-            animation: spin 3s linear infinite;
-        }
-
-        /* Animation keyframes */
-        @keyframes spin {
-            0% { transform: rotate(0deg);  border-top: 3vmin solid rgb(71, 146, 71); border-left: 3vmin solid rgb(71, 146, 71);}
-            50% { transform: rotate(360deg);  border-top: 3vmin solid rgb(170, 50, 50); border-left: 3vmin solid rgb(170, 50, 50);}
-            100% { transform: rotate(720deg);  border-top: 3vmin solid rgb(71, 146, 71); border-left: 3vmin solid rgb(71, 146, 71);}
-        }
     </style>
     
 </head>
@@ -45,8 +20,9 @@
     <div id="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
-    <img id="imageSrc" alt="No Image" style="display:none;" />
-    
+    <img id="imageSrc" alt="No Image" style="display: none;" />
+    <img id="faceimageSrc" alt="No Image" style="display:none;" />
+    <input class="button" type="file" id="resetFaceImage" name="file" style="display: none;" accept="image/*">
     <div class="buttons">
         <input class="button" type="file" id="fileInput" name="file" accept="image/*">
     </div>
@@ -63,31 +39,36 @@
     <canvas id="canvasOutput" style="display: none;"></canvas>
     <canvas id="canvasoutputrect" style="display: none;"></canvas>
     <canvas id="outputFace" style="display: none;"></canvas>
+    <canvas id="faceCanvas" style="display: none;"></canvas>
 
     <table id="output">
         <tr>
             <td id="infotd">
                 <input class="outputs" id="name" type="text" placeholder="İsim" maxlength="45">
             </td>
-            <td rowspan="6">
-                <canvas id ="cropped"></canvas>
+            <td rowspan="1" style="text-align: center;">
+                <input class="button"  style="height: auto; margin-top: 10px;" id="faceretakebutton" onclick="document.getElementById('resetFaceImage').click();"   type="button" onclick="" value="Yüzü tekrar çek">
             </td>
+            
         </tr>
         <tr>
             <td id="infotd">
                 <input class="outputs" id="surname" type="text" placeholder="Soyisim" maxlength="45">
             </td>
-            
+            <td rowspan="5" style="text-align: center;">
+                <canvas id ="cropped"></canvas>
+                <input class="button" id="noFaceFound" style="display: none; margin: 0 auto; height: 20%; width: 50%;" type="button" onclick="document.getElementById('resetFaceImage').click();"  value="Yüz Bulunamadı, Tekrar Deneyin">
+            </td>
         </tr>
         <tr>
             <td id="infotd">
-                <input class="outputs" id="tckimlikno" type="number" placeholder="T.C. Kimlik No"  oninput="this.value = this.value.slice(0, 11);">
+                <input class="outputs" id="tckimlikno" type="text" placeholder="T.C. Kimlik No"  oninput="this.value = this.value.slice(0, 11);  this.value = this.value.replace(/\D/g, '');">
             </td>
             
         </tr>
         <tr>
             <td id="infotd">
-                <input class="outputs" id="studentno" type="number" placeholder="Öğrenci No"  oninput="this.value = this.value.slice(0, 8);">
+                <input class="outputs" id="studentno" type="text" placeholder="Öğrenci No"  oninput="this.value = this.value.slice(0, 8); this.value = this.value.replace(/\D/g, '');">
             </td>
             
         </tr>
