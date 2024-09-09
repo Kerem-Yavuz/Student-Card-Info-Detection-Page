@@ -34,14 +34,23 @@
 }
 
 
-
 #outputrows td
 {
     padding: 2% 1.5vmin;
-    
+    border-right: 1px solid black;
+    border-top: 1px solid black;
     background-color: #d7eec9;
-    border: 1px solid black;
-    border-bottom-left-radius: 1vmin;
+
+}
+
+#outputrows:first-child td
+{
+    border-top: 1vmin solid rgb(238, 248, 232);
+}
+
+#outputrows td:last-child
+{
+    border-right: none;
 }
 
 #tablediv
@@ -49,12 +58,17 @@
     overflow-x:auto; 
     margin: 0 auto;
     width: 90%;
-   
+    
 }
 
-#outputtable tr:last-child td:first-child , tbody
+
+#outputrows:last-child td:first-child 
 {
-    border-bottom-left-radius: 1vmin;
+    border-bottom-left-radius: 2vmin;
+}
+#outputrows:last-child td:last-child
+{
+    border-bottom-right-radius: 2vmin;
 }
 
 /* Style the scrollbar container */
