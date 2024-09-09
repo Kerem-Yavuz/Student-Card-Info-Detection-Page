@@ -18,10 +18,81 @@
     margin-top: 5%;
     box-shadow: 5px 5px rgba(0,0,0,0.5);
 }
+#outputtable
+{
+    border-collapse: collapse;
+    margin: 0 auto;
+    
+}
+#tablehead th
+{
+    background-color: #254610;
+    font-size: 2.5vh;
+    padding: 1%;
+    color: white;
+    
+}
+
+
+
+#outputrows td
+{
+    padding: 2% 1.5vmin;
+    
+    background-color: #d7eec9;
+    border: 1px solid black;
+    border-bottom-left-radius: 1vmin;
+}
+
+#tablediv
+{
+    overflow-x:auto; 
+    margin: 0 auto;
+    width: 90%;
+   
+}
+
+#outputtable tr:last-child td:first-child , tbody
+{
+    border-bottom-left-radius: 1vmin;
+}
+
+/* Style the scrollbar container */
+::-webkit-scrollbar {
+    width: 1%; /* Width of the scrollbar */
+}
+
+/* Style the scrollbar track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the track */
+}
+
+/* Style the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+    background: #4f7736af; /* Color of the thumb */
+    border-radius: 10vmin; /* Rounded corners for the thumb */
+}
+
+/* Style the scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #254610b0; /* Color of the thumb on hover */
+}
+
+
 
 @Media only screen and (max-width: 480px)
 {
     .profileTable
+    {
+        width: 80%;
+    }
+
+    #outputrows td
+    {
+        padding: 1% 3vmin;
+    }
+
+    #tablediv
     {
         width: 80%;
     }

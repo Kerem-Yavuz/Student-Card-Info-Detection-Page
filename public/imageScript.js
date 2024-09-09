@@ -11,6 +11,8 @@ let faceinputElement = document.getElementById("resetFaceImage");
 let faceCanvas = document.getElementById("faceCanvas");
 let facectx = faceCanvas.getContext('2d');
 
+let currentimg;
+
 faceinputElement.addEventListener("change", (e) => {
     e.preventDefault();
     faceImg.src = URL.createObjectURL(e.target.files[0]);
@@ -118,7 +120,8 @@ function submit()//sends data to the mysql
         tckimlikno: document.getElementById('tckimlikno').value,
         studentno: document.getElementById('studentno').value,
         faculty: document.getElementById('faculty').value,
-        department: document.getElementById('department').value
+        department: document.getElementById('department').value,
+        img: currentimg
     };
 
     fetch('/submit-output-data',{
@@ -288,6 +291,7 @@ async function detectFace(imgInput0) {
             document.getElementById("noFaceFound").style.display= "flex";
             document.getElementById("resetFaceImage").style.display = "none";
             document.getElementById("faceretakebutton").style.display = "none";
+            currentimg = undefined;
             updateProgress(100);
         }
 
@@ -335,7 +339,7 @@ async function cropImage(imgInput)
 
     // Convert canvas to a data URL (base64) and send to server
     const croppedImage = cropCanvas.toDataURL(`image/${format}`);
-    await upload(croppedImage);//sends the croppedImage to the serverside
+    currentimg = croppedImage;
 }
 
 

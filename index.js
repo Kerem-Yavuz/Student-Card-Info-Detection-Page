@@ -170,11 +170,23 @@ app.get("/uploadImage",isAuthenticated, isHavePriv(3), (req,res) => {
 });
 
 app.get("/info",isAuthenticated, isHavePriv(1), (req,res) => {
-    res.render("profile",{
-        title: 'Profil',
-        loggedin: true,
-        username: req.user ? req.user.username : null
-    });
+    let  query = `SELECT outputs.output_name, outputs.output_surname, outputs.output_tckimlikno, outputs.output_student_id,outputs.output_faculty, outputs.output_department, outputs.output_id, outputs.output_image from login.outputs JOIN users on outputs.owner_id = users.userID where userID = ${req.user.id}`;
+        con.query(query, function (err, results) {
+            if (err) {
+                console.error("MySQL error in getting data:", err);
+                // Send proper HTTP status and error message
+                return res.status(500).send("MySQL error in getting data");
+            } else {
+                res.render("profile",{
+                    title: 'Profil',
+                    loggedin: true,
+                    username: req.user ? req.user.username : null,
+                    data: results
+                });
+            }
+        });
+
+    
 });
 
 app.get("/profile",isAuthenticated, isHavePriv(1), (req,res) => {
@@ -424,19 +436,24 @@ app.post('/upload', async (req, res) => {  //upload works after perforOCR if the
     }
 });
 
+
+
 app.post('/submit-output-data', (req, res) => {
-    const { name, surname, tckimlikno, studentno, faculty, department } = req.body;
+    const { name, surname, tckimlikno, studentno, faculty, department ,img} = req.body;
+    
     let id = req.user.id;
     const query = `
     INSERT INTO \`outputs\` 
-    (\`output_name\`, \`output_surname\`, \`output_tckimlikno\`, \`output_student_id\`, \`output_faculty\`, \`output_department\`, \`output_imageName\`,\`owner_id\`) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    (\`output_name\`, \`output_surname\`, \`output_tckimlikno\`, \`output_student_id\`, \`output_faculty\`, \`output_department\`, \`output_id\`,\`owner_id\`,\`output_image\`) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const values = [name, surname, tckimlikno, studentno, faculty, department, randomImgName,id];
-    
+    const values = [name, surname, tckimlikno, studentno, faculty, department, randomImgName,id,img];
+
     con.query(query, values, (err, result) => {
         if (err) {
-            res.redirect('/uploadImage');
+            console.error("MySQL error in submitting data:", err);
+            // Send proper HTTP status and error message
+            return res.status(500).send("MySQL error in submitting data");
         } else {
             // Redirect to the confirmation page with submitID assigned to randomImgName
             res.send(randomImgName);
