@@ -5,10 +5,9 @@
     <%- include('sayfalar/header', { title: 'Text Detection' }) %>
     <script async src="prebuild/opencv.js" type="text/javascript"></script>
     <script src="prebuild/tesseract.js"></script>
-    <script async src="prebuild/utils.js" type="text/javascript"></script>
     <script src="imageScript.js" defer></script>
     <link href="/css/textDetection.css" rel="stylesheet" type="text/css">
-
+    <script src="alert.js" defer></script>
     <style>
     </style>
     
@@ -89,7 +88,7 @@
                 <input style="background-color: rgb(148, 0, 0);" class="submitbutton" onclick="valuereset()" type="button" value = "Sıfırla">
             </td>
             <td>
-                <input style="background-color: rgb(71, 146, 71);" class="submitbutton" onclick="submit()" type="button" value="Onayla">
+                <input style="background-color: rgb(71, 146, 71);" class="submitbutton" onclick="confirmBeforeSending()" type="button" value="Onayla">
             </td>
         </tr>
         

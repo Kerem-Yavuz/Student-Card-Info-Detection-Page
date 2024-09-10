@@ -366,7 +366,7 @@ app.post('/performOCR', async (req, res) => {
             if(!match)
             {
                 
-                info[key] = key + " Not Found";
+                info[key] = key + " Bulunamadı";
             }
         }
 

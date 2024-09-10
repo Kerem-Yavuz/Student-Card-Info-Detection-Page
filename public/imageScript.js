@@ -102,10 +102,32 @@ function valuereset()//For reseting the values that found
 
 function checkBeforeReset()//Asks for confirmation before reseting
 {
-    let userConfirmed = confirm("Devam Etmek İstediğinize Emin Misiniz Kaydedilmeyen Veriler Silinir");
-    if(userConfirmed)
-    {
+    betterAlert(2, 'Kaydedilmeyen Veriler Silinecektir', 'Emin Misiniz?').then(result => {
+    if (result === 1) {
         reset();
+    } else {
+        return 0;
+    }
+});
+}
+
+
+function confirmBeforeSending()
+{
+    let data = {
+        name: document.getElementById('name').value,
+        surname: document.getElementById('surname').value,
+        tckimlikno: document.getElementById('tckimlikno').value,
+        studentno: document.getElementById('studentno').value,
+        faculty: document.getElementById('faculty').value,
+        department: document.getElementById('department').value,
+    };
+
+    if (Object.values(data).some(value => value.includes("Bulunamadı"))) {
+        betterAlert(1, 'Bulunamayan Verileri Doldurunuz', 'Dikkat!');
+    }
+    else{
+        submit();
     }
 }
 
@@ -286,7 +308,7 @@ async function detectFace(imgInput0) {
         }
         if(foundedFaces === 0)// we will put upload face image button here
         {
-            alert("No Faces Found in Image");
+            betterAlert(1,'Yüz Bulunamadı','')
             document.getElementById("cropped").style.display ="none";
             document.getElementById("noFaceFound").style.display= "flex";
             document.getElementById("resetFaceImage").style.display = "none";
