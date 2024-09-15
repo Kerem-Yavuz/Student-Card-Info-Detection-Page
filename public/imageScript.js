@@ -18,6 +18,8 @@ faceinputElement.addEventListener("change", (e) => {
     faceImg.src = URL.createObjectURL(e.target.files[0]);
     faceImg.onload = async function() {
         console.log("Image uploaded Successfully");
+        document.getElementById("cropped").style.display = "none";
+        document.getElementById("faceload").style.display = "flex";
         document.getElementById("noFaceFound").style.display = "none";
         document.getElementById("faceretakebutton").style.display = "inline-block";
         // Set canvas dimensions and draw the original image
@@ -34,7 +36,7 @@ faceinputElement.addEventListener("change", (e) => {
         // Clear points and add event listener for clicks
         points = [];
         await detectFace(faceImg);
-
+        
         // Clean up
         src.delete(); // Release memory used by the Mat object
     };
@@ -299,8 +301,8 @@ async function detectFace(imgInput0) {
                 ];
                 
                 await updateProgress(80);
-                orderPoints(points);//orders points before sending it to the crop
-                cropImage(imgInput0); //crops the face that founded
+                await orderPoints(points);//orders points before sending it to the crop
+                await cropImage(imgInput0); //crops the face that founded
                 
                 await updateProgress(100);
                 
@@ -335,7 +337,7 @@ async function cropImage(imgInput)
 {
     const cropCanvas = document.getElementById('cropped');
     const ctx = cropCanvas.getContext('2d');
-    cropCanvas.style.display = "flex";
+    
     document.getElementById("faceretakebutton").style.display = "inline-block";
     // Calculate the crop area from the points
     const cropX = Math.min(...points.map(p => p.x));
@@ -362,6 +364,8 @@ async function cropImage(imgInput)
     // Convert canvas to a data URL (base64) and send to server
     const croppedImage = cropCanvas.toDataURL(`image/${format}`);
     currentimg = croppedImage;
+    cropCanvas.style.display = "flex";
+    document.getElementById("faceload").style.display = "none";
 }
 
 

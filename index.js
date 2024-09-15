@@ -28,12 +28,12 @@ app.use('/uploads/images', express.static(uploadImagesDir));
 
 
 var con = mysql.createConnection({//mysql connections
-    //host: "172.18.1.230",
+    host: "172.18.1.230",
+    user: "root",
+    password: "Selim123!",
+    //host: "localhost",
     //user: "root",
-    //password: "Selim123!",
-    host: "localhost",
-    user: "kerem",
-    password: "150921",
+    //password: "150921",
     database: "login",
     port: 3306
     });
@@ -246,7 +246,7 @@ app.get("/login/check", (req, res) => {
             let sqlStoredHashedPassword = results[0].password; // we have already get the password with the first query so we are just checking it here
             
             if (sqlStoredHashedPassword === hashedPassword) {
-                const token = jwt.sign({ username: person.username, id: results[0].userID }, JWT_SECRET, { expiresIn: '1h' });// creates token 
+                const token = jwt.sign({ username: person.username, id: results[0].userID }, JWT_SECRET, { expiresIn: '30d' });// creates token 
                 res.cookie('token', token, { httpOnly: true }); //stores that token in cookie
                 req.session.checkerror = false;
                 res.redirect("/uploadImage");
@@ -287,7 +287,7 @@ app.get("/signup/check", (req,res)=>
         }
         
         if (results.length > 0) {
-            res.send("you already have account");
+            return res.send(`betterAlert(3, "Bu Kullanıcı adı bulunuyor, giriş yapın yada başka bir kullanıcı adı seçin", "Hata!");`);
         } else {
             let createUserQuery = `INSERT INTO login.users VALUES("${person.username}","${hashedPassword}",2,0);`;// Creates user with person.username, person.password , groupID = 2 , and the automatic userID
 
@@ -296,7 +296,7 @@ app.get("/signup/check", (req,res)=>
                     console.error("Failed to create user:", err);
                     return res.status(500).send("Failed to create user");
                 }
-                res.redirect("/login");
+                return res.send(`window.location.replace("/login")`);
             });
         }
     });

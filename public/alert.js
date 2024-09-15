@@ -4,7 +4,7 @@ link.href = "/css/alert.css";
 document.head.appendChild(link);
 
 
-function betterAlert(type, message, context) {
+function betterAlert(type, message, context) {//1 for just alert,  2 for alert with confirmation, 3 for alert with redirect to the login page
     return new Promise((resolve, reject) => {
         switch(type) {
             case 1:
@@ -31,13 +31,14 @@ function betterAlert(type, message, context) {
                     modalMessage.classList.add('message');
                     modalMessage.id = "message";
                     modalMessage.innerHTML = message;
-                    modalMessage.style.cssText = ""
+                    modalMessage.style.cssText = "";
                     modalBox.appendChild(modalMessage);
                     
                     const closeModal = document.createElement('button');
                     closeModal.id = 'close-modal';
                     closeModal.classList.add('message', 'button');
                     closeModal.textContent = 'Kapat';
+                    closeModal.style.cssText = "margin-bottom: 5%";
                     closeModal.onclick = closeMessage;
                     modalBox.appendChild(closeModal);
                 }
@@ -90,6 +91,57 @@ function betterAlert(type, message, context) {
                     confirmModal.onclick = () => {
                         closeMessage();
                         resolve(1); // Return 1 if confirmed
+                    };
+                    buttonContainer.appendChild(confirmModal);
+                }
+            break;
+
+            case 3:
+                {
+                    const messageModal = document.createElement('div');
+                    messageModal.id = 'message-modal';
+                    messageModal.classList.add('message');
+                    document.body.appendChild(messageModal);
+
+                    const modalBox = document.createElement('div');
+                    modalBox.id = 'modal-message';
+                    modalBox.classList.add('message');
+                    document.body.appendChild(modalBox);
+                    modalBox.style.opacity = 0;
+                    setTimeout(() => { modalBox.style.transition = 'opacity 0.5s'; modalBox.style.opacity = 1; }, 10);
+
+                    const modalContext = document.createElement('p');
+                    modalContext.classList.add('message');
+                    modalContext.id = "context"
+                    modalContext.innerHTML = context;
+                    modalBox.appendChild(modalContext);
+
+                    const modalMessage = document.createElement('p');
+                    modalMessage.classList.add('message');
+                    modalMessage.id = "message";
+                    modalMessage.innerHTML = message;
+                    modalBox.appendChild(modalMessage);
+
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.style.cssText = 'display: flex; justify-content: center; margin-bottom: 5%;';
+                    modalBox.appendChild(buttonContainer);
+                    
+                    const cancelModal = document.createElement('button');
+                    cancelModal.id = 'close-modal';
+                    cancelModal.classList.add('message', 'button');
+                    cancelModal.textContent = 'Kapat';
+                    cancelModal.onclick = () => {
+                        closeMessage();
+                        resolve(0); // Return 0 if canceled
+                    };
+                    buttonContainer.appendChild(cancelModal);
+
+                    const confirmModal = document.createElement('button');
+                    confirmModal.id = 'confirm-modal';
+                    confirmModal.classList.add('message', 'button');
+                    confirmModal.textContent = 'Giriş Yap';
+                    confirmModal.onclick = () => {
+                        window.location.replace('/login');
                     };
                     buttonContainer.appendChild(confirmModal);
                 }

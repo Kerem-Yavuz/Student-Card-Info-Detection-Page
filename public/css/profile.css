@@ -9,7 +9,7 @@
     color: rgb(0, 0, 0);
     word-wrap: break-word;
     
-    border-radius: 10px;
+    border-radius: 2vmin;
     width: 30%;
     height: auto;
     text-align: left;
@@ -55,10 +55,11 @@
 
 #tablediv
 {
+    border-radius: 2vmin;
     overflow-x:auto; 
     margin: 0 auto;
     width: 90%;
-    
+    margin-bottom: 10%;
 }
 
 

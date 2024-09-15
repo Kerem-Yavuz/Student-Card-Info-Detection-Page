@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Giriş Yap</title>
 	<link href="/css/login.css" rel="stylesheet" type="text/css">
+	<script src="alert.js" defer></script>
 </head>
 <body>
 	<div class="login-form" >
@@ -41,6 +42,8 @@
 		
 		
 	</div>
+
+	<div id="result"></div>
 	
 </body>
 <script>
@@ -51,7 +54,7 @@
 		} 
   document.addEventListener("keydown", entersubmit);//when enter clicked in login page it submits form
 
-  function samepassword()
+  async function samepassword()
   {
 	document.getElementById("passrequire").style.display = "none";
 	document.getElementById("userrequire").style.display = "none";
@@ -74,7 +77,27 @@
 	  	{ 
 			if(strongPasswordRegex.test(password1))
 			{
-		  		form.submit();
+				const formData = new URLSearchParams({
+          			username: username,
+          			password: password1,
+          			password2: password2
+        		});
+
+        		try {
+          			const response = await fetch('/signup/check?' + formData.toString(), {
+            			method: 'GET'
+          			});
+
+          			const result = await response.text();
+					try {
+        				eval(result);
+      				} catch (e) {
+        			console.error('Error executing script:', e);
+      				}
+        		} catch (error) {
+          			console.error('Error:', error);
+        		}
+
 			}
 			else if(!strongPasswordRegex.test(password1))
 			{

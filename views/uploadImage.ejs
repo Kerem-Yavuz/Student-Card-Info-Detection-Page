@@ -16,8 +16,9 @@
 
 
 
-    <div id="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
+    <div id="progress-container" >
+        <div class="progress-bar" id="progressBar" >
+        </div>
     </div>
     <img id="imageSrc" alt="No Image" style="display: none;" />
     <img id="faceimageSrc" alt="No Image" style="display:none;" />
@@ -40,7 +41,7 @@
     <canvas id="outputFace" style="display: none;"></canvas>
     <canvas id="faceCanvas" style="display: none;"></canvas>
 
-    <table id="output">
+    <table id="output" >
         <tr>
             <td id="infotd">
                 <input class="outputs" id="name" type="text" placeholder="İsim" maxlength="45">
@@ -55,6 +56,9 @@
                 <input class="outputs" id="surname" type="text" placeholder="Soyisim" maxlength="45">
             </td>
             <td rowspan="5" style="text-align: center;">
+                <div id="faceload" style="margin-left: 10%; display: none;">
+                    <p>Yükleniyor...</p>
+                </div>
                 <canvas id ="cropped"></canvas>
                 <input class="button" id="noFaceFound" style="display: none; margin: 0 auto; height: 20%; width: 50%;" type="button" onclick="document.getElementById('resetFaceImage').click();"  value="Yüz Bulunamadı, Tekrar Deneyin">
             </td>
