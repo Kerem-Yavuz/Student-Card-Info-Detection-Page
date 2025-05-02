@@ -27,13 +27,10 @@ app.use(express.static(path.join(__dirname, 'public/data')));
 app.use('/uploads/images', express.static(uploadImagesDir));
 
 
-var con = mysql.createConnection({//mysql connections
-    host: "172.18.1.230",
+var con = mysql.createConnection({
+    host: "localhost",
     user: "root",
-    password: "Selim123!",
-    //host: "localhost",
-    //user: "root",
-    //password: "150921",
+    password: "Mysql123!",
     database: "login",
     port: 3306
     });
